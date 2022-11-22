@@ -25,6 +25,7 @@ public class CreateGraph {
                     System.out.println(counter);
                 }
             }
+            br.close();
         } catch (Exception e) {
             System.out.println("An error occurred in createGraph");
             e.printStackTrace();
