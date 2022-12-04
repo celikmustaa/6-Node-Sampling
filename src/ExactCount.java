@@ -2,6 +2,7 @@ import java.util.ArrayList;
 
 public class ExactCount {
 
+    // TODO check the results of exactCount algorithms
     // 6-Vertex Counts
     public static long cycleEIGHTCount(Cycle cycle, BipartiteGraph graph){
         long count = 0;

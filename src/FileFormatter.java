@@ -5,7 +5,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class FileFormatter {
-    public static String input_path = "C:\\Users\\musta\\Desktop\\Hacettepe\\DREAM\\download.tsv.edit-aawiki\\edit-aawiki\\out.edit-aawiki";
+//    public static String input_path = "C:\\Users\\musta\\Desktop\\Hacettepe\\DREAM\\download.tsv.edit-aawiki\\edit-aawiki\\out.edit-aawiki";
+    public static String input_path = "C:\\Users\\musta\\Desktop\\Hacettepe\\DREAM\\download.tsv.edit-novwiki\\edit-novwiki\\out.edit-novwiki";
     public static String output_path = "out.txt";
 
     public static void toMotivo(){

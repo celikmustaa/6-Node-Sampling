@@ -1,7 +1,7 @@
 import java.util.Random;
 
 public class Sample {
-    public static int CYCLE_COUNT = 4752;
+    public static int CYCLE_COUNT = 85469928;
 
     // 6-Vertex Samplings
     //AAPM
