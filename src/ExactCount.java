@@ -94,4 +94,72 @@ public class ExactCount {
         return count;
     }
 
+    public static long cycleFOURCount(Cycle cycle, BipartiteGraph graph){
+        long count = 0;
+
+        ArrayList<Node> left = new ArrayList<>();
+        ArrayList<Node> right = new ArrayList<>();
+
+        try {
+            for(Node node: cycle.node_list.values()) {
+                if (graph.L.containsKey(node.id)) {
+                    left.add(node);
+                }
+                else if (graph.R.containsKey(node.id)) {
+                    right.add(node);
+                }
+                else {
+                    throw new Exception("Node id undefined");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if (left.get(0).adjacency_list.containsKey(left.get(1).id)){
+            count += left.get(0).degree - 3;
+            count += left.get(1).degree - 3;
+        }
+
+        if (right.get(0).adjacency_list.containsKey(right.get(1).id)){
+            count += right.get(0).degree - 3;
+            count += right.get(1).degree - 3;
+        }
+        return count;
+    }
+
+    public static long cycleFIVECount(Cycle cycle, BipartiteGraph graph){
+        long count = 0;
+
+        ArrayList<Node> left = new ArrayList<>();
+        ArrayList<Node> right = new ArrayList<>();
+
+        try {
+            for(Node node: cycle.node_list.values()) {
+                if (graph.L.containsKey(node.id)) {
+                    left.add(node);
+                }
+                else if (graph.R.containsKey(node.id)) {
+                    right.add(node);
+                }
+                else {
+                    throw new Exception("Node id undefined");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if (left.get(0).adjacency_list.containsKey(left.get(1).id)){
+            count += right.get(0).degree - 2;
+            count += right.get(1).degree - 2;
+        }
+
+        if (right.get(0).adjacency_list.containsKey(right.get(1).id)){
+            count += left.get(0).degree - 2;
+            count += left.get(1).degree - 2;
+        }
+        return count;
+    }
+
 }
