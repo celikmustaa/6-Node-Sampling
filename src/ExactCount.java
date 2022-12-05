@@ -1,9 +1,49 @@
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class ExactCount {
 
     // TODO check the results of exactCount algorithms
     // 6-Vertex Counts
+
+//    *---*---*
+//    |   |
+//    *---*---*
+//    |   |
+//    *---*---*
+    public static long cycleSEVENCount(Cycle cycle, BipartiteGraph graph){
+        long count = 0;
+
+        ArrayList<Node> left_nodes = new ArrayList<Node>();
+        ArrayList<Node> right_nodes = new ArrayList<Node>();
+
+        for(Node node: cycle.node_list.values()) {
+            if (node.id < 0){
+                left_nodes.add(node);
+            }else {
+                right_nodes.add(node);
+            }
+        }
+
+        System.out.println(left_nodes.get(0).id +  " " + left_nodes.get(1).id);
+        System.out.println(right_nodes.get(0).id +  " " + right_nodes.get(1).id);
+
+        for (Node left_node: left_nodes){
+            for (Node right_node: right_nodes){
+                System.out.printf("\tChecking pair %d, %d\n",left_node.id, right_node.id);
+
+                // If node doesn't have any other neighbours apart from the cycle, continue to the next loop
+                if (left_node.degree <= 2 || right_node.degree <= 2){
+                    continue;
+                }
+                System.out.printf("\t%d , %d\n",left_node.degree - 2, right_node.degree - 2);
+                count += (long) (left_node.degree - 2) * (right_node.degree-2);
+            }
+        }
+
+        return count;
+    }
+
     public static long cycleEIGHTCount(Cycle cycle, BipartiteGraph graph){
         long count = 0;
 
