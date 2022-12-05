@@ -4,6 +4,19 @@ public class Sample {
     public static int CYCLE_COUNT = 85469928;
 
     // 6-Vertex Samplings
+
+
+    public static double cycleSEVENSample(int k, BipartiteGraph graph){
+        double final_result = 0;
+        for(int i=0; i<k; i++){
+            Cycle cycle = graph.getRandomCycle();
+            long count = ExactCount.cycleSEVENCount(cycle, graph);
+
+            final_result += count;
+        }
+        return final_result/k*CYCLE_COUNT;
+    }
+
     //AAPM
     public static double cycleEIGHTSample(int sample, BipartiteGraph graph){
         double final_result = 0;
