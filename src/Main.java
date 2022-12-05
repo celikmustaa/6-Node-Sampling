@@ -17,20 +17,19 @@ public class Main {
 
 
 
-        int[] k_sets = {1, 2, 5, 10, 20, 50, 100, 200, 500, 1000, 3000};
-        //int[] k_sets = {1, 2, 5};
+        int[] k_sets = {50, 100, 200, 500, 1000, 3000, 10000};
 
-        System.out.println("\n         sample        EIGHT-AAPM          NINE-ACNM           TEN-BBJM");
+        System.out.println("\n         sample         SEVEN-AGJG        EIGHT-AAPM          NINE-ACNM           TEN-BBJM");
 
         for(int k: k_sets){
-            System.out.printf("%15d%18d ", k, (long) Sample.cycleEIGHTSample(k, graph));
+            System.out.printf("%15d%18d ",k, (long) Sample.cycleSEVENSample(k, graph));
+            System.out.printf("%18d ", (long) Sample.cycleEIGHTSample(k, graph));
             System.out.printf("%18d ", (long) Sample.cycleNINESample(k, graph));
             System.out.printf("%18d ", (long) Sample.cycleTENSample(k, graph));
+
             System.out.println();
 
         }
-
-        Sample.cycleSEVENSample(1, graph);
 
 //        System.out.println(graph.wedge_map.get("51-39").size());
 //        System.out.println(graph.wedge_map.get("51-39"));

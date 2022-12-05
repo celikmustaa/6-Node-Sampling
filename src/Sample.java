@@ -6,6 +6,7 @@ public class Sample {
     // 6-Vertex Samplings
 
 
+    //AGJG
     public static double cycleSEVENSample(int k, BipartiteGraph graph){
         double final_result = 0;
         for(int i=0; i<k; i++){
@@ -53,27 +54,29 @@ public class Sample {
         return final_result/k*CYCLE_COUNT;
     }
 
-    public static double cycleFOURSample(int sample, BipartiteGraph graph){
-        double final_result = 0;
-        for(int i=0; i<sample; i++){
-            Cycle cycle = graph.getRandomCycle();
-            long count = ExactCount.cycleFOURCount(cycle, graph);
-
-            final_result += count;
-        }
-        return (final_result/sample)*CYCLE_COUNT;
-    }
-
-    public static double cycleFIVESample(int sample, BipartiteGraph graph){
-        double final_result = 0;
-        for(int i=0; i<sample; i++){
-            Cycle cycle = graph.getRandomCycle();
-            long count = ExactCount.cycleFIVECount(cycle, graph);
-
-            final_result += count;
-        }
-        return (final_result/sample)*CYCLE_COUNT;
-    }
+    // ABPM
+//    public static double cycleFOURSample(int sample, BipartiteGraph graph){
+//        double final_result = 0;
+//        for(int i=0; i<sample; i++){
+//            Cycle cycle = graph.getRandomCycle();
+//            long count = ExactCount.cycleFOURCount(cycle, graph);
+//
+//            final_result += count;
+//        }
+//        return (final_result/sample)*CYCLE_COUNT;
+//    }
+//
+    // BBNM
+//    public static double cycleFIVESample(int sample, BipartiteGraph graph){
+//        double final_result = 0;
+//        for(int i=0; i<sample; i++){
+//            Cycle cycle = graph.getRandomCycle();
+//            long count = ExactCount.cycleFIVECount(cycle, graph);
+//
+//            final_result += count;
+//        }
+//        return (final_result/sample)*CYCLE_COUNT;
+//    }
 
 
 

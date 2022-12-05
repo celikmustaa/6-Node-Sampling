@@ -9,7 +9,8 @@ public class BipartiteGraph {
     public HashMap<Integer, Node> map;              // all nodes
     public ArrayList<ArrayList<Integer>> edge_list; // [[n1, -n2],[n3, -n4] ...]
     // TODO: write wedge_map in a file instead of keeping it in in-memory?
-    public HashMap<String, ArrayList<Integer>> wedge_map;      // ["n1-n2(key)": [-n3, -n1 -n5], "n4-n5(key)": [-n6, -n7 -n5]]
+    public HashMap<String, ArrayList<Integer>> wedge_map_left;      // ["n1-n2(key-left)": [-n3, -n1 -n5], "n4-n5(key)": [-n6, -n7 -n5]]
+    public HashMap<String, ArrayList<Integer>> wedge_map_right;      // ["n1$n2(key$right)": [-n3, -n1 -n5], "n4-n5(key)": [-n6, -n7 -n5]]
     public ArrayList<KeyCount> key_count;
 
     public class KeyCount {
@@ -26,7 +27,8 @@ public class BipartiteGraph {
         this.R = new HashMap<>();
         this.map = new HashMap<>();
         this.edge_list = new ArrayList<>();
-        this.wedge_map = new HashMap<>();
+        this.wedge_map_left = new HashMap<>();
+        this.wedge_map_right = new HashMap<>();
         this.key_count = new ArrayList<>();
     }
 
@@ -62,15 +64,31 @@ public class BipartiteGraph {
 
     // TODO
     public void fillWedgeMap(){
+        // where the middle is right
         for(int head: L.keySet()){
             for(int middle: map.get(head).adjacency_list.keySet()){
                 for(int tail: map.get(middle).adjacency_list.keySet()){
                     if(tail > head){
                         String key = head + "-" + tail;
-                        if(!wedge_map.containsKey(key)){
-                            wedge_map.put(key, new ArrayList<>());
+                        if(!wedge_map_left.containsKey(key)){
+                            wedge_map_left.put(key, new ArrayList<>());
                         }
-                        wedge_map.get(key).add(middle);
+                        wedge_map_left.get(key).add(middle);
+                    }
+                }
+            }
+        }
+
+        // where the middle is left
+        for(int head: R.keySet()){
+            for(int middle: map.get(head).adjacency_list.keySet()){
+                for(int tail: map.get(middle).adjacency_list.keySet()){
+                    if(tail > head){
+                        String key = head + "$" + tail;
+                        if(!wedge_map_right.containsKey(key)){
+                            wedge_map_right.put(key, new ArrayList<>());
+                        }
+                        wedge_map_right.get(key).add(middle);
                     }
                 }
             }
@@ -81,9 +99,9 @@ public class BipartiteGraph {
 
     public void fillKeyCount(){
         int counter = 0;
-        for(String key: wedge_map.keySet()){
-            if(wedge_map.get(key).size() > 1) {
-                int count = wedge_map.get(key).size() * (wedge_map.get(key).size() - 1) / 2;
+        for(String key: wedge_map_left.keySet()){
+            if(wedge_map_left.get(key).size() > 1) {
+                int count = wedge_map_left.get(key).size() * (wedge_map_left.get(key).size() - 1) / 2;
                 counter += count;
                 key_count.add(new KeyCount(key, counter));
             }
@@ -97,8 +115,8 @@ public class BipartiteGraph {
 
         String key = key_count.get(binarySearch(random_number)).key;
 
-        int first_random_index = ThreadLocalRandom.current().nextInt(0, wedge_map.get(key).size());
-        int second_random_index = ThreadLocalRandom.current().nextInt(0, wedge_map.get(key).size()-1);
+        int first_random_index = ThreadLocalRandom.current().nextInt(0, wedge_map_left.get(key).size());
+        int second_random_index = ThreadLocalRandom.current().nextInt(0, wedge_map_left.get(key).size()-1);
         if(second_random_index >= first_random_index) {
             second_random_index++;
         }
@@ -110,8 +128,8 @@ public class BipartiteGraph {
         ArrayList<Integer> node_ids = new ArrayList<>();
         node_ids.add(Integer.parseInt(splitted[0]));
         node_ids.add(Integer.parseInt(splitted[1]));
-        node_ids.add(wedge_map.get(key).get(first_random_index));
-        node_ids.add(wedge_map.get(key).get(second_random_index));
+        node_ids.add(wedge_map_left.get(key).get(first_random_index));
+        node_ids.add(wedge_map_left.get(key).get(second_random_index));
 
         for(int id: node_ids){
             cycle.node_list.put(id, map.get(id));
