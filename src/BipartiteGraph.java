@@ -10,7 +10,7 @@ public class BipartiteGraph {
     public ArrayList<ArrayList<Integer>> edge_list; // [[n1, -n2],[n3, -n4] ...]
     // TODO: write wedge_map in a file instead of keeping it in in-memory?
     public HashMap<String, ArrayList<Integer>> wedge_map_left;      // ["n1-n2(key-left)": [-n3, -n1 -n5], "n4-n5(key)": [-n6, -n7 -n5]]
-    public HashMap<String, ArrayList<Integer>> wedge_map_right;      // ["n1$n2(key$right)": [-n3, -n1 -n5], "n4-n5(key)": [-n6, -n7 -n5]]
+//    public HashMap<String, ArrayList<Integer>> wedge_map_right;      // ["n1$n2(key$right)": [-n3, -n1 -n5], "n4-n5(key)": [-n6, -n7 -n5]]
     public ArrayList<KeyCount> key_count;
 
     public class KeyCount {
@@ -28,7 +28,7 @@ public class BipartiteGraph {
         this.map = new HashMap<>();
         this.edge_list = new ArrayList<>();
         this.wedge_map_left = new HashMap<>();
-        this.wedge_map_right = new HashMap<>();
+        // this.wedge_map_right = new HashMap<>();
         this.key_count = new ArrayList<>();
     }
 
@@ -79,20 +79,20 @@ public class BipartiteGraph {
             }
         }
 
-        // where the middle is left
-        for(int head: R.keySet()){
-            for(int middle: map.get(head).adjacency_list.keySet()){
-                for(int tail: map.get(middle).adjacency_list.keySet()){
-                    if(tail > head){
-                        String key = head + "$" + tail;
-                        if(!wedge_map_right.containsKey(key)){
-                            wedge_map_right.put(key, new ArrayList<>());
-                        }
-                        wedge_map_right.get(key).add(middle);
-                    }
-                }
-            }
-        }
+//        // where the middle is left
+//        for(int head: R.keySet()){
+//            for(int middle: map.get(head).adjacency_list.keySet()){
+//                for(int tail: map.get(middle).adjacency_list.keySet()){
+//                    if(tail > head){
+//                        String key = head + "$" + tail;
+//                        if(!wedge_map_right.containsKey(key)){
+//                            wedge_map_right.put(key, new ArrayList<>());
+//                        }
+//                        wedge_map_right.get(key).add(middle);
+//                    }
+//                }
+//            }
+//        }
 
         fillKeyCount();
     }
