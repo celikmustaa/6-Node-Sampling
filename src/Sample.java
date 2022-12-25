@@ -3,6 +3,23 @@ public class Sample {
 
     // 6-Vertex Samplings
 
+    public static double cycleFIVESample(int k, BipartiteGraph graph, boolean isInduced){
+        double final_result = 0;
+        for(int i=0; i<k; i++){
+            Cycle cycle = graph.getRandomCycle();
+
+            long count;
+            if (isInduced){
+                count = ExactCountInduced.cycleFIVECount(cycle, graph);
+            }
+            else {
+                count = ExactCountNonInduced.cycleFIVECount(cycle, graph);
+            }
+            final_result += count;
+        }
+        return final_result/k*CYCLE_COUNT / 3;
+    }
+
     //IGFK-92
     public static double cycleSIXSample(int k, BipartiteGraph graph, boolean isInduced){
         double final_result = 0;

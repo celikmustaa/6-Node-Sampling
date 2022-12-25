@@ -4,6 +4,13 @@ import java.util.Collections;
 public class ExactCountInduced {
 
     // 6-Vertex Counts
+
+    public static long cycleFIVECount(Cycle cycle, BipartiteGraph graph){
+        long count = 0;
+
+        return count;
+    }
+
     public static long cycleSIXCount(Cycle cycle, BipartiteGraph graph){
         long count = 0;
 
@@ -241,8 +248,6 @@ public class ExactCountInduced {
         }
         return count;
     }
-
-
 
 
     //ABPM
