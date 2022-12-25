@@ -21,7 +21,7 @@ public class Main {
 
 
 
-        int[] k_sets = {50, 100, 200, 500};
+        int[] k_sets = {50, 100, 200, 500, 1000, 5000};
 
         boolean isInduced = args[0].equals("true");
         System.out.println("isInduced: "+ isInduced);
@@ -47,9 +47,3 @@ public class Main {
     } // main
 
 } // Main
-
-
-30 x 30
-
-C 30 x 1
-N 30 x 1
