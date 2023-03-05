@@ -254,9 +254,6 @@ public class ExactCountInduced {
     public static long cycleFOURCount(Cycle cycle, BipartiteGraph graph){
         long count = 0;
 
-        for (String key: graph.wedge_map_left.keySet()) {
-
-        }
 
 
         return count;

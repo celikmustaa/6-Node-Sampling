@@ -1,3 +1,4 @@
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.ThreadLocalRandom;
@@ -10,10 +11,9 @@ public class BipartiteGraph {
     public ArrayList<ArrayList<Integer>> edge_list; // [[n1, -n2],[n3, -n4] ...]
     // TODO: write wedge_map in a file instead of keeping it in in-memory?
     public HashMap<String, ArrayList<Integer>> wedge_map_left;      // ["n1-n2(key-left)": [-n3, -n1 -n5], "n4-n5(key)": [-n6, -n7 -n5]]
-//    public HashMap<String, ArrayList<Integer>> wedge_map_right;      // ["n1$n2(key$right)": [-n3, -n1 -n5], "n4-n5(key)": [-n6, -n7 -n5]]
-    public ArrayList<KeyCount> key_count;
-
-    public class KeyCount {
+//    public HashMap<String, ArrayList<Integer>> wedge_map_right;      // ["n1$n2(key$right)": [-n3, -n1 -n5], "n4$n5(key)": [-n6, -n7 -n5]]
+    public static ArrayList<KeyCount> key_count = new ArrayList<>();
+    public static class KeyCount {
         String key;
         int cycle_count;
 
@@ -22,6 +22,7 @@ public class BipartiteGraph {
             this.cycle_count = cycle_count;
         }
     }
+
     public BipartiteGraph() {
         this.L = new HashMap<>();
         this.R = new HashMap<>();
@@ -29,7 +30,7 @@ public class BipartiteGraph {
         this.edge_list = new ArrayList<>();
         this.wedge_map_left = new HashMap<>();
         // this.wedge_map_right = new HashMap<>();
-        this.key_count = new ArrayList<>();
+        //this.key_count = new ArrayList<>();
     }
 
     public void addNode(int id){
@@ -42,6 +43,197 @@ public class BipartiteGraph {
                 this.L.put(id, id);
             }
         }
+    }
+
+
+
+
+    public void addEdge(int left_id, int right_id){
+        try {
+            Database.insertEdge.setInt(1, left_id);
+            Database.insertEdge.setInt(2, right_id);
+            Database.insertEdge.addBatch();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void addNodes(int left_id, int right_id){
+        try {
+            Database.insertNode.setInt(1, left_id);
+            Database.insertNode.setInt(2, left_id);
+            Database.insertNode.setInt(3, left_id);
+            Database.insertNode.addBatch();
+
+            Database.insertNode.setInt(1, right_id);
+            Database.insertNode.setInt(2, right_id);
+            Database.insertNode.setInt(3, right_id);
+            Database.insertNode.addBatch();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static ArrayList<Integer> getAdjacencyList(int node_id) {
+        ArrayList<Integer> adjacency_list = new ArrayList<>();
+
+        try {
+            Database.getAdjacencyList.setInt(1, node_id);
+            Database.getAdjacencyList.setInt(2, node_id);
+            Database.getAdjacencyList.setInt(3, node_id);
+
+            ResultSet rs = Database.getAdjacencyList.executeQuery();
+
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                adjacency_list.add(id);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return adjacency_list;
+    }
+
+    public static void fillWedgeMapTable(){
+        int maxId = 0;
+
+        try {
+            ResultSet rs = Database.getMaxNodeId.executeQuery();
+
+            while (rs.next()) {
+                maxId = rs.getInt("max");
+            }
+
+            System.out.println("maxId is: " + maxId);
+
+            int head = 0;
+            int limit = 100; // TODO 1000
+
+            while(limit < maxId + 101){ // TODO 1001
+                while(head < limit && head <= maxId){
+                    for(int middle: getAdjacencyList(head)){
+                        for(int tail: getAdjacencyList(middle)){
+                            if(tail > head){
+                                String key = head + "$" + tail;
+                                Database.insertWedge.setString(1, key);
+                                Database.insertWedge.setInt(2, middle);
+                                Database.insertWedge.setInt(3, middle);
+                                Database.insertWedge.setString(4, key);
+                                Database.insertWedge.addBatch();
+
+                            }
+                        }
+                    }
+                    head += 1;
+                    System.out.println("Head is: "+ head);
+                }
+                Database.insertWedge.executeBatch();
+                System.out.println("Batch is executed");
+                limit += 100;  // TODO 1000
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+    public static void fillKeyCountFromSQL() {
+        try {
+            ResultSet rs = Database.fillKeyCount.executeQuery();
+
+            int last_key_count = 0;
+            while (rs.next()) {
+                String key = rs.getString("key");
+                int count = rs.getInt("count");
+                key_count.add(new KeyCount(key, count + last_key_count));
+                last_key_count += count;
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public static Integer[] getWedgeList(String key) {
+        Integer[] wedge_list = null;
+
+        try {
+            Database.queryWedge.setString(1, key);
+
+            ResultSet rs = Database.queryWedge.executeQuery();
+
+            while (rs.next()) {
+                wedge_list = (Integer[])rs.getArray("middles").getArray();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return wedge_list;
+    }
+
+
+    public static Cycle getRandomCycleFromSQL(){
+        int cycle_count = key_count.get(key_count.size() - 1).cycle_count;
+
+        int random_number = ThreadLocalRandom.current().nextInt(1, cycle_count + 1);
+
+        String key = key_count.get(binarySearch(random_number)).key;
+
+        int first_random_index = ThreadLocalRandom.current().nextInt(0, getWedgeList(key).length);
+        int second_random_index = ThreadLocalRandom.current().nextInt(0, getWedgeList(key).length-1);
+        if(second_random_index >= first_random_index) {
+            second_random_index++;
+        }
+
+
+        Cycle cycle = new Cycle();
+        String[] splitted = key.split("\\$");
+
+        ArrayList<Integer> node_ids = new ArrayList<>();
+        node_ids.add(Integer.parseInt(splitted[0]));
+        node_ids.add(Integer.parseInt(splitted[1]));
+        node_ids.add(getWedgeList(key)[(first_random_index)]);
+        node_ids.add(getWedgeList(key)[(second_random_index)]);
+
+
+        for(int id: node_ids){
+            Node node = new Node(id);
+            ArrayList<Integer> adjacency_list = getAdjacencyList(id);
+            HashMap<Integer, Integer> adjacency_map = new HashMap<>();
+
+            for(int neighbour: adjacency_list){
+                adjacency_map.put(neighbour, 1);
+            }
+
+            node.degree = adjacency_list.size();
+            node.adjacency_list = adjacency_map;
+
+            cycle.node_list.put(id, node);
+        }
+
+        return cycle;
+
+    }
+
+    public static int getDegree(int node_id) {
+        int degree = 0;
+
+        try {
+            Database.getDegreeOfNode.setInt(1, node_id);
+
+            ResultSet rs = Database.getDegreeOfNode.executeQuery();
+
+            while (rs.next()) {
+                degree = rs.getInt("degree");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return degree;
     }
 
     public void connect(int left_id, int right_id){
@@ -141,7 +333,7 @@ public class BipartiteGraph {
 
     // returns an index so that randomNumber is either smaller than or equal to the number in
     // the cumulative array at that index but also randomNumber is greater than the number before that index
-    public int binarySearch(int randomNumber){
+    public static int binarySearch(int randomNumber){
         int left = 0; int right = key_count.size(); // left inclusive, right exclusive
         while (true){
             if (randomNumber <= key_count.get(left).cycle_count){

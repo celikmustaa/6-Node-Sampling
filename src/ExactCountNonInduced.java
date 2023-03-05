@@ -231,6 +231,21 @@ public class ExactCountNonInduced {
         return count;
     }
 
+    public static long cycleTENCountSQL(Cycle cycle) {
+        long count = 0;
+
+        for (Node node : cycle.node_list.values()) {
+            for (int neighbour_id : node.adjacency_list.keySet()) {
+                if (!cycle.node_list.containsKey(neighbour_id)) {
+                    count += BipartiteGraph.getDegree(neighbour_id) - 1;
+                }
+
+            }
+        }
+
+        return count;
+    }
+
 }
 
 

@@ -115,6 +115,25 @@ public class Sample {
         return final_result/k*CYCLE_COUNT;
     }
 
+    //BBJM-104
+    public static double cycleTENSampleSQL(int k, boolean isInduced){
+        double final_result = 0;
+        for(int i=0; i<k; i++){
+            Cycle cycle = BipartiteGraph.getRandomCycleFromSQL();
+
+            long count;
+            if (isInduced){
+                count = ExactCountInduced.cycleTENCount(cycle, null);
+            }
+            else {
+                count = ExactCountNonInduced.cycleTENCountSQL(cycle);
+            }
+
+            final_result += count;
+        }
+        return final_result/k*CYCLE_COUNT;
+    }
+
     // ABPM
 //    public static double cycleFOURSample(int sample, BipartiteGraph graph){
 //        double final_result = 0;
