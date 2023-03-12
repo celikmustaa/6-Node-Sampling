@@ -65,7 +65,7 @@ public class Sample {
 
             long count;
             if (isInduced){
-                count = 0; //ExactCountInduced.cycleFOURCount(cycle, graph);
+                count = ExactCountInduced.cycleFOURCount(cycle, graph);
             }
             else {
                 count = ExactCountNonInduced.cycleFOURCount(cycle, graph);
