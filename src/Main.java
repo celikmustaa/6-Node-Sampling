@@ -58,7 +58,7 @@ public class Main {
 
 
 
-//        int[] k_sets = {50, 100, 200, 500, 1000, 5000};
+        int[] k_sets = {50, 100, 200, 500};
 //
 //        System.out.println("\n         sample          FIVE-BBNM          SIX-IGFK         SEVEN-AGJG         EIGHT-AAPM          NINE-ACNM           TEN-BBJM");
 //        for(int k: k_sets){
