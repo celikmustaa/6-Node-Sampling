@@ -54,7 +54,7 @@ public class Sample {
             }
             final_result += count;
         }
-        return final_result/k*CYCLE_COUNT / 3;
+        return final_result/k*CYCLE_COUNT / 5;
     }
 
     //ABPM-90
