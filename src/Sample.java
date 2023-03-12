@@ -3,6 +3,43 @@ public class Sample {
 
     // 6-Vertex Samplings
 
+    //FBNM-74
+    public static double cycleTHREESample(int k, BipartiteGraph graph, boolean isInduced){
+        double final_result = 0;
+        for(int i=0; i<k; i++){
+            Cycle cycle = graph.getRandomCycle();
+
+            long count;
+            if (isInduced){
+                count = 0; //ExactCountInduced.cycleTHREECount(cycle, graph);
+            }
+            else {
+                count = ExactCountNonInduced.cycleTHREECount(cycle, graph);
+            }
+            final_result += count;
+        }
+        return final_result/k*CYCLE_COUNT / 3;
+    }
+
+    //ABPM-90
+    public static double cycleFOURSample(int k, BipartiteGraph graph, boolean isInduced){
+        double final_result = 0;
+        for(int i=0; i<k; i++){
+            Cycle cycle = graph.getRandomCycle();
+
+            long count;
+            if (isInduced){
+                count = 0; //ExactCountInduced.cycleFOURCount(cycle, graph);
+            }
+            else {
+                count = ExactCountNonInduced.cycleFOURCount(cycle, graph);
+            }
+            final_result += count;
+        }
+        return final_result/k*CYCLE_COUNT / 3;
+    }
+
+    //BBNM-91
     public static double cycleFIVESample(int k, BipartiteGraph graph, boolean isInduced){
         double final_result = 0;
         for(int i=0; i<k; i++){

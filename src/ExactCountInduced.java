@@ -192,7 +192,6 @@ public class ExactCountInduced {
         return count;
     }
 
-
     public static long cycleTENCount(Cycle cycle, BipartiteGraph graph){
         long count = 0;
 
@@ -248,17 +247,6 @@ public class ExactCountInduced {
         }
         return count;
     }
-
-
-    //ABPM
-    public static long cycleFOURCount(Cycle cycle, BipartiteGraph graph){
-        long count = 0;
-
-
-
-        return count;
-    }
-
 
 
 }

@@ -2,6 +2,89 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ExactCountNonInduced {
+    public static long cycleTHREECount(Cycle cycle, BipartiteGraph graph){
+        long count = 0;
+
+        ArrayList<Node> left_nodes = new ArrayList<Node>();
+        ArrayList<Node> right_nodes = new ArrayList<Node>();
+
+        for(Node node: cycle.node_list.values()) {
+            if (node.id < 0){
+                left_nodes.add(node);
+            }else {
+                right_nodes.add(node);
+            }
+        }
+
+        ArrayList<Integer> left_0_adj = new ArrayList<>(left_nodes.get(0).adjacency_list.keySet());
+        ArrayList<Integer> left_1_adj = new ArrayList<>(left_nodes.get(1).adjacency_list.keySet());
+        ArrayList<Integer> right_0_adj = new ArrayList<>(right_nodes.get(0).adjacency_list.keySet());
+        ArrayList<Integer> right_1_adj = new ArrayList<>(right_nodes.get(1).adjacency_list.keySet());
+
+        left_0_adj.retainAll(left_1_adj);
+        right_0_adj.retainAll(right_1_adj);
+
+        ArrayList<Integer> left_intersection = left_0_adj;
+        ArrayList<Integer> right_intersection = right_0_adj;
+
+        left_intersection.remove(Integer.valueOf(right_nodes.get(0).id));
+        left_intersection.remove(Integer.valueOf(right_nodes.get(1).id));
+        right_intersection.remove(Integer.valueOf(left_nodes.get(0).id));
+        right_intersection.remove(Integer.valueOf(left_nodes.get(1).id));
+
+        // If left cycle is chosen
+
+        // If right cycle is chosen
+
+        // If middle cycle is chosen
+
+        return count;
+    }
+
+    public static long cycleFOURCount(Cycle cycle, BipartiteGraph graph){
+        long count = 0;
+
+        ArrayList<Node> left_nodes = new ArrayList<Node>();
+        ArrayList<Node> right_nodes = new ArrayList<Node>();
+
+        for(Node node: cycle.node_list.values()) {
+            if (node.id < 0){
+                left_nodes.add(node);
+            }else {
+                right_nodes.add(node);
+            }
+        }
+
+        ArrayList<Integer> left_0_adj = new ArrayList<>(left_nodes.get(0).adjacency_list.keySet());
+        ArrayList<Integer> left_1_adj = new ArrayList<>(left_nodes.get(1).adjacency_list.keySet());
+        ArrayList<Integer> right_0_adj = new ArrayList<>(right_nodes.get(0).adjacency_list.keySet());
+        ArrayList<Integer> right_1_adj = new ArrayList<>(right_nodes.get(1).adjacency_list.keySet());
+
+        left_0_adj.retainAll(left_1_adj);
+        right_0_adj.retainAll(right_1_adj);
+
+        ArrayList<Integer> left_intersection = left_0_adj;
+        ArrayList<Integer> right_intersection = right_0_adj;
+
+        left_intersection.remove(Integer.valueOf(right_nodes.get(0).id));
+        left_intersection.remove(Integer.valueOf(right_nodes.get(1).id));
+        right_intersection.remove(Integer.valueOf(left_nodes.get(0).id));
+        right_intersection.remove(Integer.valueOf(left_nodes.get(1).id));
+
+        // If upper small cycle is chosen
+        count += (long) (left_nodes.get(0).degree - 2 + left_nodes.get(1).degree - 2) * left_intersection.size();
+        count += (long) (right_nodes.get(0).degree - 2 + right_nodes.get(1).degree - 2) * right_intersection.size();
+
+        // If lower small cycle is chosen
+        count += (long) (left_nodes.get(0).degree - 2 + left_nodes.get(1).degree - 2) * left_intersection.size();
+        count += (long) (right_nodes.get(0).degree - 2 + right_nodes.get(1).degree - 2) * right_intersection.size();
+
+        // If big cycle is chosen
+        count += (long) (left_nodes.get(0).degree - 2 + left_nodes.get(1).degree - 2) * left_intersection.size();
+        count += (long) (right_nodes.get(0).degree - 2 + right_nodes.get(1).degree - 2) * right_intersection.size();
+
+        return count;
+    }
 
     public static long cycleFIVECount(Cycle cycle, BipartiteGraph graph){
         long count = 0;
@@ -18,10 +101,11 @@ public class ExactCountNonInduced {
         }
 
         ArrayList<Integer> left_0_adj = new ArrayList<>(left_nodes.get(0).adjacency_list.keySet());
-        ArrayList<Integer> left_1_adj = new ArrayList<>(left_nodes.get(0).adjacency_list.keySet());
+        ArrayList<Integer> left_1_adj = new ArrayList<>(left_nodes.get(1).adjacency_list.keySet());
         ArrayList<Integer> right_0_adj = new ArrayList<>(right_nodes.get(0).adjacency_list.keySet());
-        ArrayList<Integer> right_1_adj = new ArrayList<>(right_nodes.get(0).adjacency_list.keySet());
+        ArrayList<Integer> right_1_adj = new ArrayList<>(right_nodes.get(1).adjacency_list.keySet());
 
+        // TODO check for optimal functions
         left_0_adj.retainAll(left_1_adj);
         right_0_adj.retainAll(right_1_adj);
 
@@ -32,7 +116,6 @@ public class ExactCountNonInduced {
         left_intersection.remove(Integer.valueOf(right_nodes.get(1).id));
         right_intersection.remove(Integer.valueOf(left_nodes.get(0).id));
         right_intersection.remove(Integer.valueOf(left_nodes.get(1).id));
-
 
         // If left cycle is chosen
         for (int id: left_intersection){
@@ -71,9 +154,9 @@ public class ExactCountNonInduced {
         }
 
         ArrayList<Integer> left_0_adj = new ArrayList<>(left_nodes.get(0).adjacency_list.keySet());
-        ArrayList<Integer> left_1_adj = new ArrayList<>(left_nodes.get(0).adjacency_list.keySet());
+        ArrayList<Integer> left_1_adj = new ArrayList<>(left_nodes.get(1).adjacency_list.keySet());
         ArrayList<Integer> right_0_adj = new ArrayList<>(right_nodes.get(0).adjacency_list.keySet());
-        ArrayList<Integer> right_1_adj = new ArrayList<>(right_nodes.get(0).adjacency_list.keySet());
+        ArrayList<Integer> right_1_adj = new ArrayList<>(right_nodes.get(1).adjacency_list.keySet());
 
         for(int id: left_0_adj) {
             if(!cycle.node_list.containsKey(id)){
