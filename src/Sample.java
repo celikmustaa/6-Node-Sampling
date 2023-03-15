@@ -11,7 +11,7 @@ public class Sample {
 
             long count;
             if (isInduced){
-                count = 0; //ExactCountInduced.cycleONECount(cycle, graph);
+                count = ExactCountInduced.cycleONECount(cycle, graph);
             }
             else {
                 count = ExactCountNonInduced.cycleONECount(cycle, graph);
@@ -29,7 +29,7 @@ public class Sample {
 
             long count;
             if (isInduced){
-                count = 0; //ExactCountInduced.cycleTWOCount(cycle, graph);
+                count = ExactCountInduced.cycleTWOCount(cycle, graph);
             }
             else {
                 count = ExactCountNonInduced.cycleTWOCount(cycle, graph);
@@ -47,7 +47,7 @@ public class Sample {
 
             long count;
             if (isInduced){
-                count = 0; //ExactCountInduced.cycleTHREECount(cycle, graph);
+                count = ExactCountInduced.cycleTHREECount(cycle, graph);
             }
             else {
                 count = ExactCountNonInduced.cycleTHREECount(cycle, graph);
@@ -206,30 +206,6 @@ public class Sample {
         }
         return final_result/k*CYCLE_COUNT;
     }
-
-    // ABPM
-//    public static double cycleFOURSample(int sample, BipartiteGraph graph){
-//        double final_result = 0;
-//        for(int i=0; i<sample; i++){
-//            Cycle cycle = graph.getRandomCycle();
-//            long count = ExactCount.cycleFOURCount(cycle, graph);
-//
-//            final_result += count;
-//        }
-//        return (final_result/sample)*CYCLE_COUNT;
-//    }
-//
-    // BBNM
-//    public static double cycleFIVESample(int sample, BipartiteGraph graph){
-//        double final_result = 0;
-//        for(int i=0; i<sample; i++){
-//            Cycle cycle = graph.getRandomCycle();
-//            long count = ExactCount.cycleFIVECount(cycle, graph);
-//
-//            final_result += count;
-//        }
-//        return (final_result/sample)*CYCLE_COUNT;
-//    }
 
 
 
