@@ -1,6 +1,6 @@
 public class Sample {
     public static int CYCLE_COUNT = 85469928;
-    public static int FOURPATH_COUNT = 1;
+    public static int FOUR_PATH_COUNT = 1;
     // 6-Vertex Samplings
 
     //NBNM-52
@@ -223,7 +223,7 @@ public class Sample {
 
             final_result += count;
         }
-        return final_result/k*FOURPATH_COUNT;
+        return final_result/k*FOUR_PATH_COUNT;
     }
 
     //BBJM-104
@@ -242,7 +242,7 @@ public class Sample {
 
             final_result += count;
         }
-        return final_result/k*FOURPATH_COUNT;
+        return final_result/k*FOUR_PATH_COUNT;
     }
 
     //BBJM-104
@@ -261,7 +261,7 @@ public class Sample {
 
             final_result += count;
         }
-        return final_result/k*FOURPATH_COUNT;
+        return final_result/k*FOUR_PATH_COUNT;
     }
 
     //BBJM-104
@@ -280,7 +280,7 @@ public class Sample {
 
             final_result += count;
         }
-        return final_result/k*FOURPATH_COUNT;
+        return final_result/k*FOUR_PATH_COUNT;
     }
 
     //BBJM-104
@@ -299,7 +299,7 @@ public class Sample {
 
             final_result += count;
         }
-        return final_result/k*FOURPATH_COUNT;
+        return final_result/k*FOUR_PATH_COUNT;
     }
 
     //BBJM-104
@@ -318,7 +318,7 @@ public class Sample {
 
             final_result += count;
         }
-        return final_result/k*FOURPATH_COUNT;
+        return final_result/k*FOUR_PATH_COUNT;
     }
 
     //BBJM-104
@@ -337,7 +337,7 @@ public class Sample {
 
             final_result += count;
         }
-        return final_result/k*FOURPATH_COUNT;
+        return final_result/k*FOUR_PATH_COUNT;
     }
 
 }

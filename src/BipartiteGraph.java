@@ -386,4 +386,15 @@ public class BipartiteGraph {
 
         return fourPath;
     }
+
+    public int getFourPathCount(){
+        int four_path_count = 0;
+
+        for (ArrayList<Integer> edge : edge_list){
+            four_path_count += (map.get(edge.get(0)).degree - 1) * (map.get(edge.get(1)).degree - 1);
+        }
+
+        return four_path_count;
+    }
+
 }
