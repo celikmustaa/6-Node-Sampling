@@ -255,7 +255,6 @@ public class ExactCountNonInduced {
         return count;
     }
 
-
     public static long cycleEIGHTCount(Cycle cycle, BipartiteGraph graph) {
         long count = 0;
 
@@ -271,7 +270,6 @@ public class ExactCountNonInduced {
 
         return count;
     }
-
 
     // TODO: L - R bilgisini kullan
     public static long cycleNINECount(Cycle cycle, BipartiteGraph graph) {
@@ -360,6 +358,49 @@ public class ExactCountNonInduced {
 
             }
         }
+
+        return count;
+    }
+
+    public static long fourPathELEVENCount(FourPath fourPath, BipartiteGraph graph){
+        long count = 0;
+
+        return count;
+    }
+
+    //TODO needs wedge sampling
+    public static long fourPathTWELVECount(FourPath fourPath, BipartiteGraph graph){
+        long count = 0;
+
+        return count;
+    }
+
+    public static long fourPathTHIRTEENCount(FourPath fourPath, BipartiteGraph graph){
+        long count = 0;
+
+        return count;
+    }
+
+    public static long fourPathFOURTEENCount(FourPath fourPath, BipartiteGraph graph){
+        long count = 0;
+
+        return count;
+    }
+
+    public static long fourPathFIFTEENCount(FourPath fourPath, BipartiteGraph graph){
+        long count = 0;
+
+        return count;
+    }
+
+    public static long fourPathSIXTEENCount(FourPath fourPath, BipartiteGraph graph){
+        long count = 0;
+
+        return count;
+    }
+
+    public static long fourPathSEVENTEENCount(FourPath fourPath, BipartiteGraph graph){
+        long count = 0;
 
         return count;
     }

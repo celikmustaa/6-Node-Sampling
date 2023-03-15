@@ -1,6 +1,6 @@
 public class Sample {
     public static int CYCLE_COUNT = 85469928;
-
+    public static int FOURPATH_COUNT = 1;
     // 6-Vertex Samplings
 
     //NBNM-52
@@ -207,31 +207,138 @@ public class Sample {
         return final_result/k*CYCLE_COUNT;
     }
 
-    // ABPM
-//    public static double cycleFOURSample(int sample, BipartiteGraph graph){
-//        double final_result = 0;
-//        for(int i=0; i<sample; i++){
-//            Cycle cycle = graph.getRandomCycle();
-//            long count = ExactCount.cycleFOURCount(cycle, graph);
-//
-//            final_result += count;
-//        }
-//        return (final_result/sample)*CYCLE_COUNT;
-//    }
-//
-    // BBNM
-//    public static double cycleFIVESample(int sample, BipartiteGraph graph){
-//        double final_result = 0;
-//        for(int i=0; i<sample; i++){
-//            Cycle cycle = graph.getRandomCycle();
-//            long count = ExactCount.cycleFIVECount(cycle, graph);
-//
-//            final_result += count;
-//        }
-//        return (final_result/sample)*CYCLE_COUNT;
-//    }
+    //BBJM-104
+    public static double fourPathELEVENSample(int k, BipartiteGraph graph, boolean isInduced){
+        double final_result = 0;
+        for(int i=0; i<k; i++){
+            FourPath fourPath = graph.getRandomFourPath();
 
+            long count;
+            if (isInduced){
+                count = ExactCountInduced.fourPathELEVENCount(fourPath, graph);
+            }
+            else {
+                count = ExactCountNonInduced.fourPathELEVENCount(fourPath, graph);
+            }
 
+            final_result += count;
+        }
+        return final_result/k*FOURPATH_COUNT;
+    }
+
+    //BBJM-104
+    public static double fourPathTWELVESample(int k, BipartiteGraph graph, boolean isInduced){
+        double final_result = 0;
+        for(int i=0; i<k; i++){
+            FourPath fourPath = graph.getRandomFourPath();
+
+            long count;
+            if (isInduced){
+                count = ExactCountInduced.fourPathTWELVECount(fourPath, graph);
+            }
+            else {
+                count = ExactCountNonInduced.fourPathTWELVECount(fourPath, graph);
+            }
+
+            final_result += count;
+        }
+        return final_result/k*FOURPATH_COUNT;
+    }
+
+    //BBJM-104
+    public static double fourPathTHIRTEENSample(int k, BipartiteGraph graph, boolean isInduced){
+        double final_result = 0;
+        for(int i=0; i<k; i++){
+            FourPath fourPath = graph.getRandomFourPath();
+
+            long count;
+            if (isInduced){
+                count = ExactCountInduced.fourPathTHIRTEENCount(fourPath, graph);
+            }
+            else {
+                count = ExactCountNonInduced.fourPathTHIRTEENCount(fourPath, graph);
+            }
+
+            final_result += count;
+        }
+        return final_result/k*FOURPATH_COUNT;
+    }
+
+    //BBJM-104
+    public static double fourPathFOURTEENSample(int k, BipartiteGraph graph, boolean isInduced){
+        double final_result = 0;
+        for(int i=0; i<k; i++){
+            FourPath fourPath = graph.getRandomFourPath();
+
+            long count;
+            if (isInduced){
+                count = ExactCountInduced.fourPathFOURTEENCount(fourPath, graph);
+            }
+            else {
+                count = ExactCountNonInduced.fourPathFOURTEENCount(fourPath, graph);
+            }
+
+            final_result += count;
+        }
+        return final_result/k*FOURPATH_COUNT;
+    }
+
+    //BBJM-104
+    public static double fourPathFIFTEENSample(int k, BipartiteGraph graph, boolean isInduced){
+        double final_result = 0;
+        for(int i=0; i<k; i++){
+            FourPath fourPath = graph.getRandomFourPath();
+
+            long count;
+            if (isInduced){
+                count = ExactCountInduced.fourPathFIFTEENCount(fourPath, graph);
+            }
+            else {
+                count = ExactCountNonInduced.fourPathFIFTEENCount(fourPath, graph);
+            }
+
+            final_result += count;
+        }
+        return final_result/k*FOURPATH_COUNT;
+    }
+
+    //BBJM-104
+    public static double fourPathSIXTEENSample(int k, BipartiteGraph graph, boolean isInduced){
+        double final_result = 0;
+        for(int i=0; i<k; i++){
+            FourPath fourPath = graph.getRandomFourPath();
+
+            long count;
+            if (isInduced){
+                count = ExactCountInduced.fourPathSIXTEENCount(fourPath, graph);
+            }
+            else {
+                count = ExactCountNonInduced.fourPathSIXTEENCount(fourPath, graph);
+            }
+
+            final_result += count;
+        }
+        return final_result/k*FOURPATH_COUNT;
+    }
+
+    //BBJM-104
+    public static double fourPathSEVENTEENSample(int k, BipartiteGraph graph, boolean isInduced){
+        double final_result = 0;
+        for(int i=0; i<k; i++){
+            FourPath fourPath = graph.getRandomFourPath();
+
+            long count;
+            if (isInduced){
+                count = ExactCountInduced.fourPathSEVENTEENCount(fourPath, graph);
+            }
+            else {
+                count = ExactCountNonInduced.fourPathSEVENTEENCount(fourPath, graph);
+            }
+
+            final_result += count;
+        }
+        return final_result/k*FOURPATH_COUNT;
+    }
 
 }
 
