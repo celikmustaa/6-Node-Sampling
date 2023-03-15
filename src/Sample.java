@@ -11,7 +11,7 @@ public class Sample {
 
             long count;
             if (isInduced){
-                count = 0; //ExactCountInduced.cycleONECount(cycle, graph);
+                count = ExactCountInduced.cycleONECount(cycle, graph);
             }
             else {
                 count = ExactCountNonInduced.cycleONECount(cycle, graph);
@@ -29,7 +29,7 @@ public class Sample {
 
             long count;
             if (isInduced){
-                count = 0; //ExactCountInduced.cycleTWOCount(cycle, graph);
+                count = ExactCountInduced.cycleTWOCount(cycle, graph);
             }
             else {
                 count = ExactCountNonInduced.cycleTWOCount(cycle, graph);
@@ -47,14 +47,14 @@ public class Sample {
 
             long count;
             if (isInduced){
-                count = 0; //ExactCountInduced.cycleTHREECount(cycle, graph);
+                count = ExactCountInduced.cycleTHREECount(cycle, graph);
             }
             else {
                 count = ExactCountNonInduced.cycleTHREECount(cycle, graph);
             }
             final_result += count;
         }
-        return final_result/k*CYCLE_COUNT / 3;
+        return final_result/k*CYCLE_COUNT / 5;
     }
 
     //ABPM-90

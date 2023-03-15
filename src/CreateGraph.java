@@ -23,10 +23,6 @@ public class CreateGraph {
                 int left_id = Integer.parseInt(splitted[0]);
                 int right_id = (-1) * Integer.parseInt(splitted[1]);
                 graph.connect(left_id, right_id);
-
-//                if (counter++ % 1000 == 0) {
-//                    System.out.println(counter);
-//                }
             }
             br.close();
         } catch (Exception e) {

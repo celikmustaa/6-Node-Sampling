@@ -85,6 +85,7 @@ public class BipartiteGraph {
 
             ResultSet rs = Database.getAdjacencyList.executeQuery();
 
+            // TODO it traverses!!!! it is no efficient
             while (rs.next()) {
                 int id = rs.getInt("id");
                 adjacency_list.add(id);

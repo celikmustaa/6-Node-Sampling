@@ -12,11 +12,11 @@ public class Main {
 
 //        FileFormatter.toMotivo();
 
-
-        Database.connect();
-//        CreateGraph.insertEdges();
-//       CreateGraph.insertNodes();
-        BipartiteGraph.fillWedgeMapTable();
+//
+//        Database.connect();
+////        CreateGraph.insertEdges();
+////       CreateGraph.insertNodes();
+//        BipartiteGraph.fillWedgeMapTable();
 //        BipartiteGraph.fillKeyCountFromSQL();
 //
 //        System.out.println("\n\n");
@@ -31,14 +31,12 @@ public class Main {
 
 
         // OLD VERSION (WITHOUT SQL)
-//        BipartiteGraph graph = CreateGraph.createGraph();
-//        graph.fillWedgeMap();
-////
-////
-////
-//        System.out.println("Number of L nodes: " + graph.L.size()+"\tNumber of R nodes: "+graph.R.size());
-//        System.out.println("Number of nodes: " + graph.map.size()+"\tNumber of edges: "+graph.edge_list.size());
-////
+        BipartiteGraph graph = CreateGraph.createGraph();
+        graph.fillWedgeMap();
+
+        System.out.println("Number of L nodes: " + graph.L.size()+"\tNumber of R nodes: "+graph.R.size());
+        System.out.println("Number of nodes: " + graph.map.size()+"\tNumber of edges: "+graph.edge_list.size());
+
 //        for(int id: graph.map.keySet()){
 //            System.out.println(id + " " + graph.map.get(id).degree);
 //        }
@@ -58,22 +56,26 @@ public class Main {
 
 
 
-//        int[] k_sets = {50, 100, 200, 500, 1000, 5000};
-//
-//        System.out.println("\n         sample          FIVE-BBNM          SIX-IGFK         SEVEN-AGJG         EIGHT-AAPM          NINE-ACNM           TEN-BBJM");
-//        for(int k: k_sets){
-//
-//            System.out.printf("%15d",     k);
-//            System.out.printf("%18s ",    numFormat.format(Sample.cycleFIVESample(k, graph, isInduced)));
-//            System.out.printf("%18s ",    numFormat.format(Sample.cycleSIXSample(k, graph, isInduced)));
-//            System.out.printf("%18s ",    numFormat.format(Sample.cycleSEVENSample(k, graph, isInduced)));
-//            System.out.printf("%18s ",    numFormat.format(Sample.cycleEIGHTSample(k, graph, isInduced)));
-//            System.out.printf("%18s ",    numFormat.format(Sample.cycleNINESample(k, graph, isInduced)));
-//            System.out.printf("%18s ",    numFormat.format(Sample.cycleTENSample(k, graph, isInduced)));
-//
-//            System.out.println();
-//
-//        }
+        int[] k_sets = {50, 100, 200, 500, 1000, 5000};
+
+        System.out.println("\n         sample         ONE-NBNM           TWO-ADPM           THREE-FBNM         FOUR-ABPM          FIVE-BBNM           SIX-IGFK         SEVEN-AGJG         EIGHT-AAPM          NINE-ACNM           TEN-BBJM");
+        for(int k: k_sets){
+
+            System.out.printf("%15d",     k);
+            System.out.printf("%18s ",    numFormat.format(Sample.cycleONESample(k, graph, isInduced)));
+            System.out.printf("%18s ",    numFormat.format(Sample.cycleTWOSample(k, graph, isInduced)));
+            System.out.printf("%18s ",    numFormat.format(Sample.cycleTHREESample(k, graph, isInduced)));
+            System.out.printf("%18s ",    numFormat.format(Sample.cycleFOURSample(k, graph, isInduced)));
+            System.out.printf("%18s ",    numFormat.format(Sample.cycleFIVESample(k, graph, isInduced)));
+            System.out.printf("%18s ",    numFormat.format(Sample.cycleSIXSample(k, graph, isInduced)));
+            System.out.printf("%18s ",    numFormat.format(Sample.cycleSEVENSample(k, graph, isInduced)));
+            System.out.printf("%18s ",    numFormat.format(Sample.cycleEIGHTSample(k, graph, isInduced)));
+            System.out.printf("%18s ",    numFormat.format(Sample.cycleNINESample(k, graph, isInduced)));
+            System.out.printf("%18s ",    numFormat.format(Sample.cycleTENSample(k, graph, isInduced)));
+
+            System.out.println();
+
+        }
 
 
 
