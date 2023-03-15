@@ -207,6 +207,7 @@ public class Sample {
         return final_result/k*CYCLE_COUNT;
     }
 
+    //TODO change comment for 11+
     //BBJM-104
     public static double fourPathELEVENSample(int k, BipartiteGraph graph, boolean isInduced){
         double final_result = 0;
@@ -223,7 +224,7 @@ public class Sample {
 
             final_result += count;
         }
-        return final_result/k*FOUR_PATH_COUNT;
+        return final_result/k*FOUR_PATH_COUNT / 6;
     }
 
     //BBJM-104
@@ -261,7 +262,7 @@ public class Sample {
 
             final_result += count;
         }
-        return final_result/k*FOUR_PATH_COUNT;
+        return final_result/k*FOUR_PATH_COUNT / 3;
     }
 
     //BBJM-104
@@ -280,7 +281,7 @@ public class Sample {
 
             final_result += count;
         }
-        return final_result/k*FOUR_PATH_COUNT;
+        return final_result/k*FOUR_PATH_COUNT / 4;
     }
 
     //BBJM-104
@@ -299,7 +300,7 @@ public class Sample {
 
             final_result += count;
         }
-        return final_result/k*FOUR_PATH_COUNT;
+        return final_result/k*FOUR_PATH_COUNT / 4;
     }
 
     //BBJM-104
@@ -318,7 +319,7 @@ public class Sample {
 
             final_result += count;
         }
-        return final_result/k*FOUR_PATH_COUNT;
+        return final_result/k*FOUR_PATH_COUNT / 3;
     }
 
     //BBJM-104
@@ -337,7 +338,7 @@ public class Sample {
 
             final_result += count;
         }
-        return final_result/k*FOUR_PATH_COUNT;
+        return final_result/k*FOUR_PATH_COUNT / 3;
     }
 
 }
