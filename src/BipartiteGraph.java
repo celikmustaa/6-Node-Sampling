@@ -368,7 +368,7 @@ public class BipartiteGraph {
         node1_adj_map.remove((random_edge.get(0)));
 
         ArrayList<Integer> node0_adj = new ArrayList<Integer>(node0_adj_map.keySet());
-        ArrayList<Integer> node1_adj = new ArrayList<Integer>(node0_adj_map.keySet());
+        ArrayList<Integer> node1_adj = new ArrayList<Integer>(node1_adj_map.keySet());
 
         if ((node0_adj.size() > 0) && (node1_adj.size() > 0)){
             int random_node_index0 = ThreadLocalRandom.current().nextInt(0, node0_adj.size());

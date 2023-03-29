@@ -55,25 +55,25 @@ public class Main {
 //        System.out.println();
 
 
-
-        int[] k_sets = {50, 100, 200, 500, 1000, 5000};
+        //{50, 100, 200, 500, 1000, 5000}
+        int[] k_sets = {10000};
 
         Sample.FOUR_PATH_COUNT = graph.getFourPathCount();
-
-        System.out.println("\n         sample         ONE-NBNM           TWO-ADPM           THREE-FBNM         FOUR-ABPM          FIVE-BBNM           SIX-IGFK         SEVEN-AGJG         EIGHT-AAPM          NINE-ACNM           TEN-BBJM        ELEVEN-MBEM        TWELVE-AADO      THIRTEEN-AAHK      FOURTEEN-ACFK       FIFTEEN-AIKG       SIXTEEN-AAPE     SEVENTEEN-AGJE");
+        //ONE-NBNM           TWO-ADPM           THREE-FBNM         FOUR-ABPM          FIVE-BBNM           SIX-IGFK         SEVEN-AGJG         EIGHT-AAPM          NINE-ACNM           TEN-BBJM
+        System.out.println("\n         sample         ELEVEN-MBEM        TWELVE-AADO      THIRTEEN-AAHK      FOURTEEN-ACFK       FIFTEEN-AIKG       SIXTEEN-AAPE     SEVENTEEN-AGJE");
         for(int k: k_sets){
 
             System.out.printf("%15d",     k);
-            System.out.printf("%18s ",    numFormat.format(Sample.cycleONESample(k, graph, isInduced)));
-            System.out.printf("%18s ",    numFormat.format(Sample.cycleTWOSample(k, graph, isInduced)));
-            System.out.printf("%18s ",    numFormat.format(Sample.cycleTHREESample(k, graph, isInduced)));
-            System.out.printf("%18s ",    numFormat.format(Sample.cycleFOURSample(k, graph, isInduced)));
-            System.out.printf("%18s ",    numFormat.format(Sample.cycleFIVESample(k, graph, isInduced)));
-            System.out.printf("%18s ",    numFormat.format(Sample.cycleSIXSample(k, graph, isInduced)));
-            System.out.printf("%18s ",    numFormat.format(Sample.cycleSEVENSample(k, graph, isInduced)));
-            System.out.printf("%18s ",    numFormat.format(Sample.cycleEIGHTSample(k, graph, isInduced)));
-            System.out.printf("%18s ",    numFormat.format(Sample.cycleNINESample(k, graph, isInduced)));
-            System.out.printf("%18s ",    numFormat.format(Sample.cycleTENSample(k, graph, isInduced)));
+            //System.out.printf("%18s ",    numFormat.format(Sample.cycleONESample(k, graph, isInduced)));
+            //System.out.printf("%18s ",    numFormat.format(Sample.cycleTWOSample(k, graph, isInduced)));
+            //System.out.printf("%18s ",    numFormat.format(Sample.cycleTHREESample(k, graph, isInduced)));
+            //System.out.printf("%18s ",    numFormat.format(Sample.cycleFOURSample(k, graph, isInduced)));
+            //System.out.printf("%18s ",    numFormat.format(Sample.cycleFIVESample(k, graph, isInduced)));
+            //System.out.printf("%18s ",    numFormat.format(Sample.cycleSIXSample(k, graph, isInduced)));
+            //System.out.printf("%18s ",    numFormat.format(Sample.cycleSEVENSample(k, graph, isInduced)));
+            //System.out.printf("%18s ",    numFormat.format(Sample.cycleEIGHTSample(k, graph, isInduced)));
+            //System.out.printf("%18s ",    numFormat.format(Sample.cycleNINESample(k, graph, isInduced)));
+            //System.out.printf("%18s ",    numFormat.format(Sample.cycleTENSample(k, graph, isInduced)));
             System.out.printf("%18s ",    numFormat.format(Sample.fourPathELEVENSample(k, graph, isInduced)));
             System.out.printf("%18s ",    numFormat.format(Sample.fourPathTWELVESample(k, graph, isInduced)));
             System.out.printf("%18s ",    numFormat.format(Sample.fourPathTHIRTEENSample(k, graph, isInduced)));

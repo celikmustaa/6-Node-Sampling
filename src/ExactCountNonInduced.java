@@ -355,15 +355,19 @@ public class ExactCountNonInduced {
             }
         }
 
-        for (int node : cycle.node_list.get(opposite_first_end).adjacency_list.values()) {
-            if (!cycle.node_list.containsKey(node)) {
-                first_opposite_count++;
+        if (opposite_first_end != 0) {
+            for (int node : cycle.node_list.get(opposite_first_end).adjacency_list.values()) {
+                if (!cycle.node_list.containsKey(node)) {
+                    first_opposite_count++;
+                }
             }
         }
 
-        for (int node : cycle.node_list.get(opposite_second_end).adjacency_list.values()) {
-            if (!cycle.node_list.containsKey(node)) {
-                second_opposite_count++;
+        if (opposite_second_end != 0) {
+            for (int node : cycle.node_list.get(opposite_second_end).adjacency_list.values()) {
+                if (!cycle.node_list.containsKey(node)) {
+                    second_opposite_count++;
+                }
             }
         }
 
@@ -403,11 +407,9 @@ public class ExactCountNonInduced {
 
     public static long fourPathELEVENCount(FourPath fourPath, BipartiteGraph graph){
         long count = 0;
-
         for (int id0: fourPath.node_list.get(0).adjacency_list.keySet()){
             if (fourPath.ids.contains(id0)) continue;
             Node currNode = graph.map.get(id0);
-
             for (int id3: fourPath.node_list.get(3).adjacency_list.keySet()){
                 if (fourPath.ids.contains(id3)) continue;
                 if (currNode.adjacency_list.containsKey(id3)){
@@ -415,6 +417,7 @@ public class ExactCountNonInduced {
                 }
             }
         }
+
 
         return count;
     }
@@ -460,6 +463,9 @@ public class ExactCountNonInduced {
 
             count += graph.map.get(id).degree - 1;
         }
+
+        count += (long) (fourPath.node_list.get(0).degree - 1) * (fourPath.node_list.get(1).degree - 2);
+        count += (long) (fourPath.node_list.get(3).degree - 1) * (fourPath.node_list.get(2).degree - 2);
 
         return count;
     }
