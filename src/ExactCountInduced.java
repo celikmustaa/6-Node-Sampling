@@ -552,6 +552,8 @@ public class ExactCountInduced {
         return count;
     }
 
+
+    // TODO: do for 0-1 and 2-3 couples
     public static long fourPathFIFTEENCount(FourPath fourPath, BipartiteGraph graph){
         long count = 0;
 
