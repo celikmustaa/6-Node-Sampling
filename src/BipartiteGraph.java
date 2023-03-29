@@ -371,12 +371,20 @@ public class BipartiteGraph {
         ArrayList<Integer> node1_adj = new ArrayList<Integer>(node0_adj_map.keySet());
 
         if ((node0_adj.size() > 0) && (node1_adj.size() > 0)){
+
             int random_node_index0 = ThreadLocalRandom.current().nextInt(1, node0_adj.size() + 1);
             int random_node_index1 = ThreadLocalRandom.current().nextInt(1, node1_adj.size() + 1);
+
             fourPath.node_list.put(0, map.get(node0_adj.get(random_node_index0)));
             fourPath.node_list.put(1, map.get(random_edge.get(0)));
             fourPath.node_list.put(2, map.get(random_edge.get(1)));
             fourPath.node_list.put(3, map.get(node1_adj.get(random_node_index1)));
+
+            ArrayList<Integer> ids = new ArrayList<>();
+            for (int i=0; i < 4 ;i++){
+                ids.add(fourPath.node_list.get(i).id);
+            }
+            fourPath.ids = ids;
         }
         else {
             System.out.println("Fourpath doesn't exist for the randomly chosen edge, choosing new edge");

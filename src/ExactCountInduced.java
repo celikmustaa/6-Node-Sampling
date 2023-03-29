@@ -434,6 +434,7 @@ public class ExactCountInduced {
         ArrayList<Integer> left_1_adj = new ArrayList<>(fourPath.node_list.get(2).adjacency_list.keySet());
         ArrayList<Integer> right_1_adj = new ArrayList<>(fourPath.node_list.get(3).adjacency_list.keySet());
 
+        // TODO no need for intersection
         left_0_adj.retainAll(left_1_adj);
         right_0_adj.retainAll(right_1_adj);
 
@@ -464,7 +465,7 @@ public class ExactCountInduced {
         return count;
     }
 
-    //TODO needs wedge sampling
+    //TODO needs something
     public static long fourPathTWELVECount(FourPath fourPath, BipartiteGraph graph){
         long count = 0;
 
@@ -474,16 +475,12 @@ public class ExactCountInduced {
     public static long fourPathTHIRTEENCount(FourPath fourPath, BipartiteGraph graph){
         long count = 0;
 
-        ArrayList<Integer> ids = new ArrayList<>();
-        for (int i=0; i < 4 ;i++){
-            ids.add(fourPath.node_list.get(i).id);
-        }
 
         ArrayList<Integer> left_0_adj = new ArrayList<>(fourPath.node_list.get(0).adjacency_list.keySet());
         ArrayList<Integer> right_0_adj = new ArrayList<>(fourPath.node_list.get(1).adjacency_list.keySet());
         ArrayList<Integer> left_1_adj = new ArrayList<>(fourPath.node_list.get(2).adjacency_list.keySet());
         ArrayList<Integer> right_1_adj = new ArrayList<>(fourPath.node_list.get(3).adjacency_list.keySet());
-
+        // TODO no need for intersection
         left_0_adj.retainAll(left_1_adj);
         right_0_adj.retainAll(right_1_adj);
 
@@ -499,12 +496,12 @@ public class ExactCountInduced {
         }
 
         for(int id: fourPath.node_list.get(1).adjacency_list.keySet()){
-            if ((!ids.contains(id)) && (!right_intersection.contains(id))){
+            if ((!fourPath.ids.contains(id)) && (!right_intersection.contains(id))){
                 count++;
             }
         }
         for(int id: fourPath.node_list.get(2).adjacency_list.keySet()){
-            if ((!ids.contains(id)) && (!left_intersection.contains(id))){
+            if ((!fourPath.ids.contains(id)) && (!left_intersection.contains(id))){
                 count++;
             }
         }
@@ -525,6 +522,7 @@ public class ExactCountInduced {
         ArrayList<Integer> left_1_adj = new ArrayList<>(fourPath.node_list.get(2).adjacency_list.keySet());
         ArrayList<Integer> right_1_adj = new ArrayList<>(fourPath.node_list.get(3).adjacency_list.keySet());
 
+        // TODO no need for intersection
         left_0_adj.retainAll(left_1_adj);
         right_0_adj.retainAll(right_1_adj);
 
@@ -543,7 +541,7 @@ public class ExactCountInduced {
             if ((!ids.contains(id0)) && (!right_intersection.contains(id0))){ // Induced check
                 for(int id1: fourPath.node_list.get(2).adjacency_list.keySet()){
                     if ((!ids.contains(id1)) && (!left_intersection.contains(id1))){ //Induced check
-                        if(graph.map.get(id0).adjacency_list.containsKey(id1)) { // Final edge check
+                        if(!graph.map.get(id0).adjacency_list.containsKey(id1)) { // Final edge check
                             count++;
                         }
                     }
@@ -568,6 +566,7 @@ public class ExactCountInduced {
         ArrayList<Integer> left_1_adj = new ArrayList<>(fourPath.node_list.get(2).adjacency_list.keySet());
         ArrayList<Integer> right_1_adj = new ArrayList<>(fourPath.node_list.get(3).adjacency_list.keySet());
 
+        // TODO no need for intersection
         left_0_adj.retainAll(left_1_adj);
         right_0_adj.retainAll(right_1_adj);
 
