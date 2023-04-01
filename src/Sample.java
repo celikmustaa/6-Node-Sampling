@@ -11,7 +11,7 @@ public class Sample {
 
             long count;
             if (isInduced){
-                count = ExactCountInduced.cycleONECount(cycle, graph);
+                count = ExactCountNonInduced.cycleONECount(cycle, graph);
             }
             else {
                 count = ExactCountNonInduced.cycleONECount(cycle, graph);
@@ -29,7 +29,7 @@ public class Sample {
 
             long count;
             if (isInduced){
-                count = ExactCountInduced.cycleTWOCount(cycle, graph);
+                count = ExactCountNonInduced.cycleTWOCount(cycle, graph);
             }
             else {
                 count = ExactCountNonInduced.cycleTWOCount(cycle, graph);
@@ -47,7 +47,7 @@ public class Sample {
 
             long count;
             if (isInduced){
-                count = ExactCountInduced.cycleTHREECount(cycle, graph);
+                count = ExactCountNonInduced.cycleTHREECount(cycle, graph);
             }
             else {
                 count = ExactCountNonInduced.cycleTHREECount(cycle, graph);
@@ -65,7 +65,7 @@ public class Sample {
 
             long count;
             if (isInduced){
-                count = ExactCountInduced.cycleFOURCount(cycle, graph);
+                count = ExactCountNonInduced.cycleFOURCount(cycle, graph);
             }
             else {
                 count = ExactCountNonInduced.cycleFOURCount(cycle, graph);
@@ -83,7 +83,7 @@ public class Sample {
 
             long count;
             if (isInduced){
-                count = ExactCountInduced.cycleFIVECount(cycle, graph);
+                count = ExactCountNonInduced.cycleFIVECount(cycle, graph);
             }
             else {
                 count = ExactCountNonInduced.cycleFIVECount(cycle, graph);
@@ -101,7 +101,7 @@ public class Sample {
 
             long count;
             if (isInduced){
-                count = ExactCountInduced.cycleSIXCount(cycle, graph);
+                count = ExactCountNonInduced.cycleSIXCount(cycle, graph);
             }
             else {
                 count = ExactCountNonInduced.cycleSIXCount(cycle, graph);
@@ -119,7 +119,7 @@ public class Sample {
 
             long count;
             if (isInduced){
-                count = ExactCountInduced.cycleSEVENCount(cycle, graph);
+                count = ExactCountNonInduced.cycleSEVENCount(cycle, graph);
             }
             else {
                 count = ExactCountNonInduced.cycleSEVENCount(cycle, graph);
@@ -137,7 +137,7 @@ public class Sample {
 
             long count;
             if (isInduced){
-                count = ExactCountInduced.cycleEIGHTCount(cycle, graph);
+                count = ExactCountNonInduced.cycleEIGHTCount(cycle, graph);
             }
             else {
                 count = ExactCountNonInduced.cycleEIGHTCount(cycle, graph);
@@ -157,7 +157,7 @@ public class Sample {
 
             long count;
             if (isInduced){
-                count = ExactCountInduced.cycleNINECount(cycle, graph);
+                count = ExactCountNonInduced.cycleNINECount(cycle, graph);
             }
             else {
                 count = ExactCountNonInduced.cycleNINECount(cycle, graph);
@@ -177,7 +177,7 @@ public class Sample {
 
             long count;
             if (isInduced){
-                count = ExactCountInduced.cycleTENCount(cycle, graph);
+                count = ExactCountNonInduced.cycleTENCount(cycle, graph);
             }
             else {
                 count = ExactCountNonInduced.cycleTENCount(cycle, graph);
@@ -197,7 +197,7 @@ public class Sample {
 
             long count;
             if (isInduced){
-                count = ExactCountInduced.fourPathELEVENCount(fourPath, graph);
+                count = ExactCountNonInduced.fourPathELEVENCount(fourPath, graph);
             }
             else {
                 count = ExactCountNonInduced.fourPathELEVENCount(fourPath, graph);
@@ -216,7 +216,7 @@ public class Sample {
 
             long count;
             if (isInduced){
-                count = ExactCountInduced.fourPathTWELVECount(fourPath, graph);
+                count = ExactCountNonInduced.fourPathTWELVECount(fourPath, graph);
             }
             else {
                 count = ExactCountNonInduced.fourPathTWELVECount(fourPath, graph);
@@ -235,7 +235,7 @@ public class Sample {
 
             long count;
             if (isInduced){
-                count = ExactCountInduced.fourPathTHIRTEENCount(fourPath, graph);
+                count = ExactCountNonInduced.fourPathTHIRTEENCount(fourPath, graph);
             }
             else {
                 count = ExactCountNonInduced.fourPathTHIRTEENCount(fourPath, graph);
@@ -254,7 +254,7 @@ public class Sample {
 
             long count;
             if (isInduced){
-                count = ExactCountInduced.fourPathFOURTEENCount(fourPath, graph);
+                count = ExactCountNonInduced.fourPathFOURTEENCount(fourPath, graph);
             }
             else {
                 count = ExactCountNonInduced.fourPathFOURTEENCount(fourPath, graph);
@@ -273,7 +273,7 @@ public class Sample {
 
             long count;
             if (isInduced){
-                count = ExactCountInduced.fourPathFIFTEENCount(fourPath, graph);
+                count = ExactCountNonInduced.fourPathFIFTEENCount(fourPath, graph);
             }
             else {
                 count = ExactCountNonInduced.fourPathFIFTEENCount(fourPath, graph);
@@ -292,7 +292,7 @@ public class Sample {
 
             long count;
             if (isInduced){
-                count = ExactCountInduced.fourPathSIXTEENCount(fourPath, graph);
+                count = ExactCountNonInduced.fourPathSIXTEENCount(fourPath, graph);
             }
             else {
                 count = ExactCountNonInduced.fourPathSIXTEENCount(fourPath, graph);
@@ -311,7 +311,7 @@ public class Sample {
 
             long count;
             if (isInduced){
-                count = ExactCountInduced.fourPathSEVENTEENCount(fourPath, graph);
+                count = ExactCountNonInduced.fourPathSEVENTEENCount(fourPath, graph);
             }
             else {
                 count = ExactCountNonInduced.fourPathSEVENTEENCount(fourPath, graph);
@@ -332,7 +332,7 @@ public class Sample {
 
             long count;
             if (isInduced){
-                count = ExactCountInduced.cycleTENCount(cycle, null);
+                count = ExactCountNonInduced.cycleTENCount(cycle, null);
             }
             else {
                 count = ExactCountNonInduced.cycleTENCountSQL(cycle);

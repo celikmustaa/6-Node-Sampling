@@ -240,7 +240,7 @@ public class BipartiteGraph {
             node.degree = adjacency_list.length;
             node.adjacency_list = adjacency_map;
 
-            cycle.node_list.put(id, node);
+//      TODO      cycle.node_list.put(id, node);
         }
 
         return cycle;
@@ -345,15 +345,15 @@ public class BipartiteGraph {
         Cycle cycle = new Cycle();
         String[] splitted = key.split("-");
 
-        ArrayList<Integer> node_ids = new ArrayList<>();
-        node_ids.add(Integer.parseInt(splitted[0]));
-        node_ids.add(Integer.parseInt(splitted[1]));
-        node_ids.add(wedge_map_left.get(key).get(first_random_index));
-        node_ids.add(wedge_map_left.get(key).get(second_random_index));
+        cycle.map.put(Integer.parseInt(splitted[0]), map.get(Integer.parseInt(splitted[0])));
+        cycle.map.put(Integer.parseInt(splitted[1]), map.get(Integer.parseInt(splitted[1])));
+        cycle.map.put(wedge_map_left.get(key).get(first_random_index), map.get(wedge_map_left.get(key).get(first_random_index)));
+        cycle.map.put(wedge_map_left.get(key).get(second_random_index), map.get(wedge_map_left.get(key).get(second_random_index)));
 
-        for(int id: node_ids){
-            cycle.node_list.put(id, map.get(id));
-        }
+        cycle.left_nodes[0] = map.get(Integer.parseInt(splitted[0]));
+        cycle.left_nodes[1] = map.get(Integer.parseInt(splitted[1]));
+        cycle.right_nodes[0] = map.get(wedge_map_left.get(key).get(first_random_index));
+        cycle.right_nodes[1] = map.get(wedge_map_left.get(key).get(second_random_index));
 
         return cycle;
 
@@ -391,11 +391,11 @@ public class BipartiteGraph {
         HashMap<Integer, Integer> node0_adj_map = map.get(random_edge.get(0)).adjacency_list;
         HashMap<Integer, Integer> node1_adj_map = map.get(random_edge.get(1)).adjacency_list;
 
-        node0_adj_map.remove(random_edge.get(1));
-        node1_adj_map.remove((random_edge.get(0)));
+        ArrayList<Integer> node0_adj = new ArrayList<>(node0_adj_map.keySet());
+        ArrayList<Integer> node1_adj = new ArrayList<>(node1_adj_map.keySet());
 
-        ArrayList<Integer> node0_adj = new ArrayList<Integer>(node0_adj_map.keySet());
-        ArrayList<Integer> node1_adj = new ArrayList<Integer>(node1_adj_map.keySet());
+        node0_adj.remove(random_edge.get(1));
+        node1_adj.remove(random_edge.get(0));
 
         if ((node0_adj.size() > 0) && (node1_adj.size() > 0)){
             int random_node_index0 = ThreadLocalRandom.current().nextInt(0, node0_adj.size());

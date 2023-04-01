@@ -1,31 +1,17 @@
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.stream.Collectors;
 
 public class ExactCountNonInduced {
     public static long cycleONECount(Cycle cycle, BipartiteGraph graph){
         long count = 0;
 
-
-        ArrayList<Node> left_nodes = new ArrayList<>();
-        ArrayList<Node> right_nodes = new ArrayList<>();
-
-        for(Node node: cycle.node_list.values()) {
-            if (node.id < 0){
-                left_nodes.add(node);
-            }else {
-                right_nodes.add(node);
-            }
-        }
-
-        ArrayList<Integer> left_0_adj = new ArrayList<>(left_nodes.get(0).adjacency_list.keySet());
-        ArrayList<Integer> right_0_adj = new ArrayList<>(right_nodes.get(0).adjacency_list.keySet());
-
-        for(int id: left_0_adj) {
-            if(!cycle.node_list.containsKey(id)){
+        for(int id: cycle.left_nodes[0].adjacency_list.keySet()) {
+            if(!cycle.map.containsKey(id)){
                 HashMap<Integer, Integer> id_adj = graph.map.get(id).adjacency_list;
-                for(int id2: right_0_adj) {
-                    if (!cycle.node_list.containsKey(id2) && id_adj.containsKey(id2)) {
-                        if (left_nodes.get(1).adjacency_list.containsKey(id) && right_nodes.get(1).adjacency_list.containsKey(id2)) {
+                for(int id2: cycle.right_nodes[0].adjacency_list.keySet()) {
+                    if (!cycle.map.containsKey(id2) && id_adj.containsKey(id2)) {
+                        if (cycle.left_nodes[1].adjacency_list.containsKey(id) && cycle.right_nodes[1].adjacency_list.containsKey(id2)) {
                             count += 1;
                         }
 
@@ -40,36 +26,12 @@ public class ExactCountNonInduced {
     public static long cycleTWOCount(Cycle cycle, BipartiteGraph graph){
         long count = 0;
 
-        ArrayList<Node> left_nodes = new ArrayList<Node>();
-        ArrayList<Node> right_nodes = new ArrayList<Node>();
-
-        for(Node node: cycle.node_list.values()) {
-            if (node.id < 0){
-                left_nodes.add(node);
-            }else {
-                right_nodes.add(node);
-            }
-        }
-
-        ArrayList<Integer> left_0_adj = new ArrayList<>(left_nodes.get(0).adjacency_list.keySet());
-        ArrayList<Integer> left_1_adj = new ArrayList<>(left_nodes.get(1).adjacency_list.keySet());
-        ArrayList<Integer> right_0_adj = new ArrayList<>(right_nodes.get(0).adjacency_list.keySet());
-        ArrayList<Integer> right_1_adj = new ArrayList<>(right_nodes.get(1).adjacency_list.keySet());
-
-        left_0_adj.retainAll(left_1_adj);
-        right_0_adj.retainAll(right_1_adj);
-
-        ArrayList<Integer> left_intersection = left_0_adj;
-        ArrayList<Integer> right_intersection = right_0_adj;
-
-        left_intersection.remove(Integer.valueOf(right_nodes.get(0).id));
-        left_intersection.remove(Integer.valueOf(right_nodes.get(1).id));
-        right_intersection.remove(Integer.valueOf(left_nodes.get(0).id));
-        right_intersection.remove(Integer.valueOf(left_nodes.get(1).id));
+        ArrayList<Integer> left_intersection = getIntersection(cycle.left_nodes);
+        ArrayList<Integer> right_intersection = getIntersection(cycle.right_nodes);
 
         // 6 possible cycle choice
-        count += (long) left_intersection.size() * (left_intersection.size() - 1) / 2;
-        count += (long) right_intersection.size() * (right_intersection.size() - 1) / 2;
+        count += (long) (left_intersection.size() - 2) * (left_intersection.size() - 3) / 2;
+        count += (long) (right_intersection.size() - 2) * (right_intersection.size() - 3) / 2;
 
         return count;
     }
@@ -77,29 +39,12 @@ public class ExactCountNonInduced {
     public static long cycleTHREECount(Cycle cycle, BipartiteGraph graph){
         long count = 0;
 
-
-        ArrayList<Node> left_nodes = new ArrayList<>();
-        ArrayList<Node> right_nodes = new ArrayList<>();
-
-        for(Node node: cycle.node_list.values()) {
-            if (node.id < 0){
-                left_nodes.add(node);
-            }else {
-                right_nodes.add(node);
-            }
-        }
-
-        ArrayList<Integer> left_0_adj = new ArrayList<>(left_nodes.get(0).adjacency_list.keySet());
-        ArrayList<Integer> left_1_adj = new ArrayList<>(left_nodes.get(1).adjacency_list.keySet());
-        ArrayList<Integer> right_0_adj = new ArrayList<>(right_nodes.get(0).adjacency_list.keySet());
-        ArrayList<Integer> right_1_adj = new ArrayList<>(right_nodes.get(1).adjacency_list.keySet());
-
-        for(int id: left_0_adj) {
-            if(!cycle.node_list.containsKey(id)){
+        for(int id: cycle.left_nodes[0].adjacency_list.keySet()) {
+            if(!cycle.map.containsKey(id)){
                 HashMap<Integer, Integer> id_adj = graph.map.get(id).adjacency_list;
-                for(int id2: right_0_adj) {
-                    if (!cycle.node_list.containsKey(id2) && id_adj.containsKey(id2)) {
-                        if (left_nodes.get(1).adjacency_list.containsKey(id) || right_nodes.get(1).adjacency_list.containsKey(id2)) {
+                for(int id2: cycle.right_nodes[0].adjacency_list.keySet()) {
+                    if (!cycle.map.containsKey(id2) && id_adj.containsKey(id2)) {
+                        if (cycle.left_nodes[1].adjacency_list.containsKey(id) || cycle.right_nodes[1].adjacency_list.containsKey(id2)) {
                             count += 1;
                         }
 
@@ -108,12 +53,12 @@ public class ExactCountNonInduced {
             }
         }
 
-        for(int id: left_1_adj) {
-            if(!cycle.node_list.containsKey(id)){
+        for(int id: cycle.left_nodes[1].adjacency_list.keySet()) {
+            if(!cycle.map.containsKey(id)){
                 HashMap<Integer, Integer> id_adj = graph.map.get(id).adjacency_list;
-                for(int id3: right_1_adj) {
-                    if (!cycle.node_list.containsKey(id3) && id_adj.containsKey(id3)) {
-                        if (left_nodes.get(0).adjacency_list.containsKey(id) || right_nodes.get(0).adjacency_list.containsKey(id3)) {
+                for(int id3: cycle.right_nodes[1].adjacency_list.keySet()) {
+                    if (!cycle.map.containsKey(id3) && id_adj.containsKey(id3)) {
+                        if (cycle.left_nodes[0].adjacency_list.containsKey(id) || cycle.right_nodes[0].adjacency_list.containsKey(id3)) {
                             count += 1;
                         }
                     }
@@ -127,35 +72,11 @@ public class ExactCountNonInduced {
     public static long cycleFOURCount(Cycle cycle, BipartiteGraph graph){
         long count = 0;
 
-        ArrayList<Node> left_nodes = new ArrayList<Node>();
-        ArrayList<Node> right_nodes = new ArrayList<Node>();
+        ArrayList<Integer> left_intersection = getIntersection(cycle.left_nodes);
+        ArrayList<Integer> right_intersection = getIntersection(cycle.right_nodes);
 
-        for(Node node: cycle.node_list.values()) {
-            if (node.id < 0){
-                left_nodes.add(node);
-            }else {
-                right_nodes.add(node);
-            }
-        }
-
-        ArrayList<Integer> left_0_adj = new ArrayList<>(left_nodes.get(0).adjacency_list.keySet());
-        ArrayList<Integer> left_1_adj = new ArrayList<>(left_nodes.get(1).adjacency_list.keySet());
-        ArrayList<Integer> right_0_adj = new ArrayList<>(right_nodes.get(0).adjacency_list.keySet());
-        ArrayList<Integer> right_1_adj = new ArrayList<>(right_nodes.get(1).adjacency_list.keySet());
-
-        left_0_adj.retainAll(left_1_adj);
-        right_0_adj.retainAll(right_1_adj);
-
-        ArrayList<Integer> left_intersection = left_0_adj;
-        ArrayList<Integer> right_intersection = right_0_adj;
-
-        left_intersection.remove(Integer.valueOf(right_nodes.get(0).id));
-        left_intersection.remove(Integer.valueOf(right_nodes.get(1).id));
-        right_intersection.remove(Integer.valueOf(left_nodes.get(0).id));
-        right_intersection.remove(Integer.valueOf(left_nodes.get(1).id));
-
-        count += (long) (left_nodes.get(0).degree - 2 + left_nodes.get(1).degree - 2) * left_intersection.size();
-        count += (long) (right_nodes.get(0).degree - 2 + right_nodes.get(1).degree - 2) * right_intersection.size();
+        count += (long) (cycle.left_nodes[0].degree - 2 + cycle.left_nodes[1].degree - 2) * (left_intersection.size() - 2);
+        count += (long) (cycle.right_nodes[0].degree - 2 + cycle.right_nodes[1].degree - 2) * (right_intersection.size() - 2);
 
         return count;
     }
@@ -163,51 +84,29 @@ public class ExactCountNonInduced {
     public static long cycleFIVECount(Cycle cycle, BipartiteGraph graph){
         long count = 0;
 
-        ArrayList<Node> left_nodes = new ArrayList<Node>();
-        ArrayList<Node> right_nodes = new ArrayList<Node>();
+        ArrayList<Integer> left_intersection = getIntersection(cycle.left_nodes);
+        ArrayList<Integer> right_intersection = getIntersection(cycle.right_nodes);
 
-        for(Node node: cycle.node_list.values()) {
-            if (node.id < 0){
-                left_nodes.add(node);
-            }else {
-                right_nodes.add(node);
-            }
-        }
-
-        ArrayList<Integer> left_0_adj = new ArrayList<>(left_nodes.get(0).adjacency_list.keySet());
-        ArrayList<Integer> left_1_adj = new ArrayList<>(left_nodes.get(1).adjacency_list.keySet());
-        ArrayList<Integer> right_0_adj = new ArrayList<>(right_nodes.get(0).adjacency_list.keySet());
-        ArrayList<Integer> right_1_adj = new ArrayList<>(right_nodes.get(1).adjacency_list.keySet());
-
-        // TODO check for optimal functions
-        left_0_adj.retainAll(left_1_adj);
-        right_0_adj.retainAll(right_1_adj);
-
-        ArrayList<Integer> left_intersection = left_0_adj;
-        ArrayList<Integer> right_intersection = right_0_adj;
-
-        left_intersection.remove(Integer.valueOf(right_nodes.get(0).id));
-        left_intersection.remove(Integer.valueOf(right_nodes.get(1).id));
-        right_intersection.remove(Integer.valueOf(left_nodes.get(0).id));
-        right_intersection.remove(Integer.valueOf(left_nodes.get(1).id));
 
         // If left cycle is chosen
         for (int id: left_intersection){
-            count += graph.map.get(id).degree-2;
+            if (!cycle.map.containsKey(id)) {
+                count += graph.map.get(id).degree-2;
+            }
         }
         for (int id: right_intersection){
-            count += graph.map.get(id).degree-2;
+            if (!cycle.map.containsKey(id)) {
+                count += graph.map.get(id).degree-2;
+            }
         }
 
         // If right cycle is chosen
-        count += (long) (right_nodes.get(0).degree - 2 + right_nodes.get(1).degree - 2) * left_intersection.size();
-
-        count += (long) (left_nodes.get(0).degree - 2 + left_nodes.get(1).degree - 2) * right_intersection.size();
+        count += (long) (cycle.right_nodes[0].degree - 2 + cycle.right_nodes[1].degree - 2) * (left_intersection.size() - 2);
+        count += (long) (cycle.left_nodes[0].degree - 2 + cycle.left_nodes[1].degree - 2) * (right_intersection.size() - 2);
 
         // If outer cycle is chosen (same as right cycle)
-        count += (long) (right_nodes.get(0).degree - 2 + right_nodes.get(1).degree - 2) * left_intersection.size();
-
-        count += (long) (left_nodes.get(0).degree - 2 + left_nodes.get(1).degree - 2) * right_intersection.size();
+        count += (long) (cycle.right_nodes[0].degree - 2 + cycle.right_nodes[1].degree - 2) * (left_intersection.size() - 2);
+        count += (long) (cycle.left_nodes[0].degree - 2 + cycle.left_nodes[1].degree - 2) * (right_intersection.size() - 2);
 
         return count;
     }
@@ -215,49 +114,32 @@ public class ExactCountNonInduced {
     public static long cycleSIXCount(Cycle cycle, BipartiteGraph graph){
         long count = 0;
 
-
-        ArrayList<Node> left_nodes = new ArrayList<Node>();
-        ArrayList<Node> right_nodes = new ArrayList<Node>();
-
-        for(Node node: cycle.node_list.values()) {
-            if (node.id < 0){
-                left_nodes.add(node);
-            }else {
-                right_nodes.add(node);
-            }
-        }
-
-        ArrayList<Integer> left_0_adj = new ArrayList<>(left_nodes.get(0).adjacency_list.keySet());
-        ArrayList<Integer> left_1_adj = new ArrayList<>(left_nodes.get(1).adjacency_list.keySet());
-        ArrayList<Integer> right_0_adj = new ArrayList<>(right_nodes.get(0).adjacency_list.keySet());
-        ArrayList<Integer> right_1_adj = new ArrayList<>(right_nodes.get(1).adjacency_list.keySet());
-
-        for(int id: left_0_adj) {
-            if(!cycle.node_list.containsKey(id)){
+        for(int id: cycle.left_nodes[0].adjacency_list.keySet()) {
+            if(!cycle.map.containsKey(id)){
                 HashMap<Integer, Integer> id_adj = graph.map.get(id).adjacency_list;
-                for(int id2: right_0_adj) {
-                    if (!cycle.node_list.containsKey(id2) && id_adj.containsKey(id2)) {
+                for(int id2: cycle.right_nodes[0].adjacency_list.keySet()) {
+                    if (!cycle.map.containsKey(id2) && id_adj.containsKey(id2)) {
                         count += 1;
                     }
                 }
-                for(int id3: right_1_adj) {
-                    if (!cycle.node_list.containsKey(id3) && id_adj.containsKey(id3)) {
+                for(int id3: cycle.right_nodes[1].adjacency_list.keySet()) {
+                    if (!cycle.map.containsKey(id3) && id_adj.containsKey(id3)) {
                         count += 1;
                     }
                 }
             }
         }
 
-        for(int id: left_1_adj) {
-            if(!cycle.node_list.containsKey(id)){
+        for(int id: cycle.left_nodes[1].adjacency_list.keySet()) {
+            if(!cycle.map.containsKey(id)){
                 HashMap<Integer, Integer> id_adj = graph.map.get(id).adjacency_list;
-                for(int id2: right_0_adj) {
-                    if (!cycle.node_list.containsKey(id2) && id_adj.containsKey(id2)) {
+                for(int id2: cycle.right_nodes[0].adjacency_list.keySet()) {
+                    if (!cycle.map.containsKey(id2) && id_adj.containsKey(id2)) {
                         count += 1;
                     }
                 }
-                for(int id3: right_1_adj) {
-                    if (!cycle.node_list.containsKey(id3) && id_adj.containsKey(id3)) {
+                for(int id3: cycle.right_nodes[1].adjacency_list.keySet()) {
+                    if (!cycle.map.containsKey(id3) && id_adj.containsKey(id3)) {
                         count += 1;
                     }
                 }
@@ -270,19 +152,8 @@ public class ExactCountNonInduced {
     public static long cycleSEVENCount(Cycle cycle, BipartiteGraph graph) {
         long count = 0;
 
-        ArrayList<Node> left_nodes = new ArrayList<Node>();
-        ArrayList<Node> right_nodes = new ArrayList<Node>();
-
-        for (Node node : cycle.node_list.values()) {
-            if (node.id < 0) {
-                left_nodes.add(node);
-            } else {
-                right_nodes.add(node);
-            }
-        }
-
-        for (Node left_node : left_nodes) {
-            for (Node right_node : right_nodes) {
+        for (Node left_node : cycle.left_nodes) {
+            for (Node right_node : cycle.right_nodes) {
                 // If node doesn't have any other neighbours apart from the cycle, continue to the next loop
                 if (left_node.degree <= 2 || right_node.degree <= 2) {
                     continue;
@@ -297,10 +168,10 @@ public class ExactCountNonInduced {
     public static long cycleEIGHTCount(Cycle cycle, BipartiteGraph graph) {
         long count = 0;
 
-        for (Node node : cycle.node_list.values()) {
+        for (Node node : cycle.map.values()) {
             long neigbours = 0;
             for (int neighbour_id : node.adjacency_list.keySet()) {
-                if (!cycle.node_list.containsKey(neighbour_id)) {
+                if (!cycle.map.containsKey(neighbour_id)) {
                     neigbours++;
                 }
             }
@@ -314,7 +185,7 @@ public class ExactCountNonInduced {
     public static long cycleNINECount(Cycle cycle, BipartiteGraph graph) {
         ArrayList<Integer> edge = new ArrayList<>();
         int node1 = 0, node2 = 0;
-        for (int id : cycle.node_list.keySet()) {
+        for (int id : cycle.map.keySet()) {
             if (id > 0 && node1 == 0) {
                 node1 = id;
             } else if (id < 0 && node2 == 0) {
@@ -329,43 +200,43 @@ public class ExactCountNonInduced {
 
         int opposite_first_end = 0;
         int opposite_second_end = 0;
-        for (int node : cycle.node_list.keySet()) {
-            if (cycle.node_list.get(first_end).adjacency_list.containsKey(node) &&
-                    !cycle.node_list.get(second_end).adjacency_list.containsKey(node)) {
+        for (int node : cycle.map.keySet()) {
+            if (cycle.map.get(first_end).adjacency_list.containsKey(node) &&
+                    !cycle.map.get(second_end).adjacency_list.containsKey(node)) {
                 opposite_second_end = node;
             }
 
-            if (cycle.node_list.get(second_end).adjacency_list.containsKey(node) &&
-                    !cycle.node_list.get(first_end).adjacency_list.containsKey(node)) {
+            if (cycle.map.get(second_end).adjacency_list.containsKey(node) &&
+                    !cycle.map.get(first_end).adjacency_list.containsKey(node)) {
                 opposite_first_end = node;
             }
         }
 
         long first_end_count = 0, second_end_count = 0, first_opposite_count = 0, second_opposite_count = 0;
 
-        for (int node : cycle.node_list.get(first_end).adjacency_list.values()) {
-            if (!cycle.node_list.containsKey(node)) {
+        for (int node : cycle.map.get(first_end).adjacency_list.values()) {
+            if (!cycle.map.containsKey(node)) {
                 first_end_count++;
             }
         }
 
-        for (int node : cycle.node_list.get(second_end).adjacency_list.values()) {
-            if (!cycle.node_list.containsKey(node)) {
+        for (int node : cycle.map.get(second_end).adjacency_list.values()) {
+            if (!cycle.map.containsKey(node)) {
                 second_end_count++;
             }
         }
 
         if (opposite_first_end != 0) {
-            for (int node : cycle.node_list.get(opposite_first_end).adjacency_list.values()) {
-                if (!cycle.node_list.containsKey(node)) {
+            for (int node : cycle.map.get(opposite_first_end).adjacency_list.values()) {
+                if (!cycle.map.containsKey(node)) {
                     first_opposite_count++;
                 }
             }
         }
 
         if (opposite_second_end != 0) {
-            for (int node : cycle.node_list.get(opposite_second_end).adjacency_list.values()) {
-                if (!cycle.node_list.containsKey(node)) {
+            for (int node : cycle.map.get(opposite_second_end).adjacency_list.values()) {
+                if (!cycle.map.containsKey(node)) {
                     second_opposite_count++;
                 }
             }
@@ -378,9 +249,9 @@ public class ExactCountNonInduced {
     public static long cycleTENCount(Cycle cycle, BipartiteGraph graph) {
         long count = 0;
 
-        for (Node node : cycle.node_list.values()) {
+        for (Node node : cycle.map.values()) {
             for (int neighbour_id : node.adjacency_list.keySet()) {
-                if (!cycle.node_list.containsKey(neighbour_id)) {
+                if (!cycle.map.containsKey(neighbour_id)) {
                     count += graph.map.get(neighbour_id).degree - 1;
                 }
 
@@ -393,9 +264,9 @@ public class ExactCountNonInduced {
     public static long cycleTENCountSQL(Cycle cycle) {
         long count = 0;
 
-        for (Node node : cycle.node_list.values()) {
+        for (Node node : cycle.map.values()) {
             for (int neighbour_id : node.adjacency_list.keySet()) {
-                if (!cycle.node_list.containsKey(neighbour_id)) {
+                if (!cycle.map.containsKey(neighbour_id)) {
                     count += BipartiteGraph.getDegree(neighbour_id) - 1;
                 }
 
@@ -499,6 +370,11 @@ public class ExactCountNonInduced {
         return count;
     }
 
+    public static ArrayList<Integer> getIntersection(Node[] nodes) {
+        return nodes[0].adjacency_list.keySet().stream()
+                .filter(nodes[1].adjacency_list.keySet()::contains).collect(Collectors.toCollection(ArrayList::new));
+
+    }
 }
 
 
