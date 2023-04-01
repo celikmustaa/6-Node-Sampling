@@ -1,3 +1,4 @@
+import java.sql.Array;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -64,36 +65,35 @@ public class BipartiteGraph {
             Database.insertNode.setInt(1, left_id);
             Database.insertNode.setInt(2, left_id);
             Database.insertNode.setInt(3, left_id);
+            Database.insertNode.setInt(4, left_id);
             Database.insertNode.addBatch();
 
             Database.insertNode.setInt(1, right_id);
             Database.insertNode.setInt(2, right_id);
             Database.insertNode.setInt(3, right_id);
+            Database.insertNode.setInt(4, right_id);
             Database.insertNode.addBatch();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public static ArrayList<Integer> getAdjacencyList(int node_id) {
-        ArrayList<Integer> adjacency_list = new ArrayList<>();
-
+    public static Integer[] getAdjacencyList(int node_id) {
         try {
             Database.getAdjacencyList.setInt(1, node_id);
-            Database.getAdjacencyList.setInt(2, node_id);
-            Database.getAdjacencyList.setInt(3, node_id);
 
             ResultSet rs = Database.getAdjacencyList.executeQuery();
 
             // TODO it traverses!!!! it is no efficient
-            while (rs.next()) {
-                int id = rs.getInt("id");
-                adjacency_list.add(id);
+            if (rs.next()) {
+                Array arr = rs.getArray("adjacency_list");
+                return (Integer[])arr.getArray();
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return adjacency_list;
+        return null;
     }
 
     public static void fillWedgeMapTable(){
@@ -140,19 +140,46 @@ public class BipartiteGraph {
 
     }
 
+// OLD
+//    public static void fillKeyCountFromSQL() {
+//        try {
+//            ResultSet rs = Database.fillKeyCount.executeQuery();
+//
+//            int last_key_count = 0;
+//            while (rs.next()) {
+//                String key = rs.getString("key");
+//                int count = rs.getInt("count");
+//                key_count.add(new KeyCount(key, count + last_key_count));
+//                last_key_count += count;
+//
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//    }
 
     public static void fillKeyCountFromSQL() {
+        int wedge_count = 0;
+
         try {
-            ResultSet rs = Database.fillKeyCount.executeQuery();
+            ResultSet rs = Database.getWedgeCount.executeQuery();
 
-            int last_key_count = 0;
-            while (rs.next()) {
-                String key = rs.getString("key");
-                int count = rs.getInt("count");
-                key_count.add(new KeyCount(key, count + last_key_count));
-                last_key_count += count;
-
+            if (rs.next()) {
+                wedge_count = rs.getInt("count");
             }
+
+            //int last_key_count = 0;
+            for (int i = 1; i<= wedge_count; i++) {
+                //Database.setCumulativeCycleCount.setInt(1, last_key_count);
+                Database.setCumulativeCycleCount.setInt(1, i);
+
+                Database.setCumulativeCycleCount.setInt(2, i);
+
+                Database.setCumulativeCycleCount.addBatch();
+                Database.setCumulativeCycleCount.executeUpdate();
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -203,14 +230,14 @@ public class BipartiteGraph {
 
         for(int id: node_ids){
             Node node = new Node(id);
-            ArrayList<Integer> adjacency_list = getAdjacencyList(id);
+            Integer[] adjacency_list = getAdjacencyList(id);
             HashMap<Integer, Integer> adjacency_map = new HashMap<>();
 
             for(int neighbour: adjacency_list){
                 adjacency_map.put(neighbour, 1);
             }
 
-            node.degree = adjacency_list.size();
+            node.degree = adjacency_list.length;
             node.adjacency_list = adjacency_map;
 
             cycle.node_list.put(id, node);

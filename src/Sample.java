@@ -188,25 +188,6 @@ public class Sample {
         return final_result/k*CYCLE_COUNT;
     }
 
-    //BBJM-104
-    public static double cycleTENSampleSQL(int k, boolean isInduced){
-        double final_result = 0;
-        for(int i=0; i<k; i++){
-            Cycle cycle = BipartiteGraph.getRandomCycleFromSQL();
-
-            long count;
-            if (isInduced){
-                count = ExactCountInduced.cycleTENCount(cycle, null);
-            }
-            else {
-                count = ExactCountNonInduced.cycleTENCountSQL(cycle);
-            }
-
-            final_result += count;
-        }
-        return final_result/k*CYCLE_COUNT;
-    }
-
     //TODO change comment for 11+
     //BBJM-104
     public static double fourPathELEVENSample(int k, BipartiteGraph graph, boolean isInduced){
@@ -341,5 +322,25 @@ public class Sample {
         return final_result/k*FOUR_PATH_COUNT / 3;
     }
 
+
+
+    // SQL
+    public static double cycleTENSampleSQL(int k, boolean isInduced){
+        double final_result = 0;
+        for(int i=0; i<k; i++){
+            Cycle cycle = BipartiteGraph.getRandomCycleFromSQL();
+
+            long count;
+            if (isInduced){
+                count = ExactCountInduced.cycleTENCount(cycle, null);
+            }
+            else {
+                count = ExactCountNonInduced.cycleTENCountSQL(cycle);
+            }
+
+            final_result += count;
+        }
+        return final_result/k*CYCLE_COUNT;
+    }
 }
 

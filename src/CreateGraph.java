@@ -1,6 +1,7 @@
 import javax.xml.crypto.Data;
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.sql.SQLException;
 
 public class CreateGraph {
     //public static String path = "C:\\Users\\musta\\Desktop\\Hacettepe\\DREAM\\brunson_southern-women\\out.brunson_southern-women_southern-women";
@@ -78,12 +79,20 @@ public class CreateGraph {
             Database.insertNode.executeBatch();
             br.close();
         } catch (Exception e) {
-            System.out.println("An error occurred in insertEdges");
+            System.out.println("An error occurred in insertNodes");
             e.printStackTrace();
         }
 
     }
 
+    public static void setDegrees(){
+        try {
+            Database.setDegrees.addBatch();
+            Database.setDegrees.executeBatch();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
 
 
