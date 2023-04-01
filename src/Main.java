@@ -56,7 +56,7 @@ public class Main {
 
 
         //{50, 100, 200, 500, 1000, 5000}
-        int[] k_sets = {10000};
+        int[] k_sets = {5000};
 
         Sample.FOUR_PATH_COUNT = graph.getFourPathCount();
         //ONE-NBNM           TWO-ADPM           THREE-FBNM         FOUR-ABPM          FIVE-BBNM           SIX-IGFK         SEVEN-AGJG         EIGHT-AAPM          NINE-ACNM           TEN-BBJM

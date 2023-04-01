@@ -407,6 +407,7 @@ public class ExactCountNonInduced {
 
     public static long fourPathELEVENCount(FourPath fourPath, BipartiteGraph graph){
         long count = 0;
+
         for (int id0: fourPath.node_list.get(0).adjacency_list.keySet()){
             if (fourPath.ids.contains(id0)) continue;
             Node currNode = graph.map.get(id0);
@@ -442,13 +443,10 @@ public class ExactCountNonInduced {
     }
 
     public static long fourPathFOURTEENCount(FourPath fourPath, BipartiteGraph graph){
-        long count = 0;
-
-        count += (long) (fourPath.node_list.get(1).degree - 2) * (fourPath.node_list.get(2).degree - 2);
-
-        return count;
+        return (long) (fourPath.node_list.get(1).degree - 2) * (fourPath.node_list.get(2).degree - 2);
     }
 
+    // TODO - Think over the algorithms, should we multiply by 2?
     public static long fourPathFIFTEENCount(FourPath fourPath, BipartiteGraph graph){
         long count = 0;
 
@@ -464,8 +462,8 @@ public class ExactCountNonInduced {
             count += graph.map.get(id).degree - 1;
         }
 
-        count += (long) (fourPath.node_list.get(0).degree - 1) * (fourPath.node_list.get(1).degree - 2);
-        count += (long) (fourPath.node_list.get(3).degree - 1) * (fourPath.node_list.get(2).degree - 2);
+        count += (long) (fourPath.node_list.get(0).degree - 1) * (fourPath.node_list.get(1).degree - 2) *2;
+        count += (long) (fourPath.node_list.get(3).degree - 1) * (fourPath.node_list.get(2).degree - 2) *2;
 
         return count;
     }
