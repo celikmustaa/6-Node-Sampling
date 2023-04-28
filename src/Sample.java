@@ -197,7 +197,7 @@ public class Sample {
 
             long count;
             if (isInduced){
-                count = ExactCountNonInduced.fourPathELEVENCount(fourPath, graph);
+                count = ExactCountNonInduced.fourPathELEVENCount(fourPath, graph); // TODO rename methods like: M11
             }
             else {
                 count = ExactCountNonInduced.fourPathELEVENCount(fourPath, graph);
