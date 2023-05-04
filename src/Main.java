@@ -10,7 +10,7 @@ public class Main {
         System.out.println("isInduced: "+ isInduced);
 
 
-        FileFormatter.toMotivo();
+//        FileFormatter.toMotivo();
 
 //
 //        Database.connect();
@@ -34,6 +34,7 @@ public class Main {
         // OLD VERSION (WITHOUT SQL)
         BipartiteGraph graph = CreateGraph.createGraph();
         graph.fillWedgeMap();
+        graph.fillEdgeFourPathCounts(graph);
 //
         System.out.println("wedge_map_size: " + graph.wedge_map_left.size());
         System.out.println("key_count_size: " + BipartiteGraph.key_count.size());
@@ -64,6 +65,9 @@ public class Main {
 
         Sample.CYCLE_COUNT = BipartiteGraph.key_count.get(BipartiteGraph.key_count.size()-1).cycle_count;
         Sample.FOUR_PATH_COUNT = graph.getFourPathCount();
+        System.out.println("Four path count with method: " + Sample.FOUR_PATH_COUNT);
+        Sample.FOUR_PATH_COUNT = BipartiteGraph.edge_four_path_counts.get(BipartiteGraph.edge_four_path_counts.size()-1).four_path_count;
+        System.out.println("Four path count with method: " + Sample.FOUR_PATH_COUNT);
 
         System.out.println("\n         sample         ONE-NBNM           TWO-ADPM           THREE-FBNM         FOUR-ABPM          FIVE-BBNM           SIX-IGFK         SEVEN-AGJG         EIGHT-AAPM          NINE-ACNM           TEN-BBJM        ELEVEN-MBEM        TWELVE-AADO      THIRTEEN-AAHK      FOURTEEN-ACFK       FIFTEEN-AIKG       SIXTEEN-AAPE     SEVENTEEN-AGJE");
         for(int k: k_sets){

@@ -193,7 +193,7 @@ public class Sample {
     public static double fourPathELEVENSample(int k, BipartiteGraph graph, boolean isInduced){
         double final_result = 0;
         for(int i=0; i<k; i++){
-            FourPath fourPath = graph.getRandomFourPath();
+            FourPath fourPath = graph.getRandomFourPath(graph);
 
             long count;
             if (isInduced){
@@ -212,7 +212,7 @@ public class Sample {
     public static double fourPathTWELVESample(int k, BipartiteGraph graph, boolean isInduced){
         double final_result = 0;
         for(int i=0; i<k; i++){
-            FourPath fourPath = graph.getRandomFourPath();
+            FourPath fourPath = graph.getRandomFourPath(graph);
 
             long count;
             if (isInduced){
@@ -231,7 +231,7 @@ public class Sample {
     public static double fourPathTHIRTEENSample(int k, BipartiteGraph graph, boolean isInduced){
         double final_result = 0;
         for(int i=0; i<k; i++){
-            FourPath fourPath = graph.getRandomFourPath();
+            FourPath fourPath = graph.getRandomFourPath(graph);
 
             long count;
             if (isInduced){
@@ -250,7 +250,7 @@ public class Sample {
     public static double fourPathFOURTEENSample(int k, BipartiteGraph graph, boolean isInduced){
         double final_result = 0;
         for(int i=0; i<k; i++){
-            FourPath fourPath = graph.getRandomFourPath();
+            FourPath fourPath = graph.getRandomFourPath(graph);
 
             long count;
             if (isInduced){
@@ -269,7 +269,7 @@ public class Sample {
     public static double fourPathFIFTEENSample(int k, BipartiteGraph graph, boolean isInduced){
         double final_result = 0;
         for(int i=0; i<k; i++){
-            FourPath fourPath = graph.getRandomFourPath();
+            FourPath fourPath = graph.getRandomFourPath(graph);
 
             long count;
             if (isInduced){
@@ -288,7 +288,7 @@ public class Sample {
     public static double fourPathSIXTEENSample(int k, BipartiteGraph graph, boolean isInduced){
         double final_result = 0;
         for(int i=0; i<k; i++){
-            FourPath fourPath = graph.getRandomFourPath();
+            FourPath fourPath = graph.getRandomFourPath(graph);
 
             long count;
             if (isInduced){
@@ -307,7 +307,7 @@ public class Sample {
     public static double fourPathSEVENTEENSample(int k, BipartiteGraph graph, boolean isInduced){
         double final_result = 0;
         for(int i=0; i<k; i++){
-            FourPath fourPath = graph.getRandomFourPath();
+            FourPath fourPath = graph.getRandomFourPath(graph);
 
             long count;
             if (isInduced){

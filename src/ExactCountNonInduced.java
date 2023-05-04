@@ -327,16 +327,27 @@ public class ExactCountNonInduced {
     public static long fourPathSEVENTEENCount(FourPath fourPath, BipartiteGraph graph) {
         long count = 0;
 
-//        if (fourPath.node_list.get()fourPath.node_list.get(3))
-        count += (long) (fourPath.node_list.get(0).degree - 1) * (fourPath.node_list.get(3).degree - 1); // TODO can be -2
+        if (fourPath.node_list.get(0).adjacency_list.containsKey(fourPath.node_list.get(3).id)){
+            count += (long) (fourPath.node_list.get(0).degree - 2) * (fourPath.node_list.get(3).degree - 2);
+        } else {
+            count += (long) (fourPath.node_list.get(0).degree - 1) * (fourPath.node_list.get(3).degree - 1);
+        }
+
 
         for (int id : fourPath.node_list.get(0).adjacency_list.keySet()) {
             if (fourPath.ids.contains(id)) continue;
             count += graph.map.get(id).degree - 1;
+            if (fourPath.node_list.get(2).adjacency_list.containsKey(id)) {
+                count -= 1;
+            }
         }
+
         for (int id : fourPath.node_list.get(3).adjacency_list.keySet()) {
             if (fourPath.ids.contains(id)) continue;
             count += graph.map.get(id).degree - 1;
+            if (fourPath.node_list.get(1).adjacency_list.containsKey(id)) {
+                count -= 1;
+            }
         }
 
         return count;
