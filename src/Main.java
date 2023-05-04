@@ -10,7 +10,7 @@ public class Main {
         System.out.println("isInduced: "+ isInduced);
 
 
-//        FileFormatter.toMotivo();
+        FileFormatter.toMotivo();
 
 //
 //        Database.connect();
@@ -62,6 +62,7 @@ public class Main {
 
         int[] k_sets = {50, 100, 200, 500, 1000, 5000};
 
+        Sample.CYCLE_COUNT = BipartiteGraph.key_count.get(BipartiteGraph.key_count.size()-1).cycle_count;
         Sample.FOUR_PATH_COUNT = graph.getFourPathCount();
 
         System.out.println("\n         sample         ONE-NBNM           TWO-ADPM           THREE-FBNM         FOUR-ABPM          FIVE-BBNM           SIX-IGFK         SEVEN-AGJG         EIGHT-AAPM          NINE-ACNM           TEN-BBJM        ELEVEN-MBEM        TWELVE-AADO      THIRTEEN-AAHK      FOURTEEN-ACFK       FIFTEEN-AIKG       SIXTEEN-AAPE     SEVENTEEN-AGJE");

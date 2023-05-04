@@ -1,6 +1,6 @@
 public class Sample {
-    public static int CYCLE_COUNT = 85469928;
-    public static int FOUR_PATH_COUNT = 1;
+    public static long CYCLE_COUNT = 0;
+    public static long FOUR_PATH_COUNT = 0;
     // 6-Vertex Samplings
 
     //NBNM-52

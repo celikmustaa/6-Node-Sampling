@@ -7,8 +7,10 @@ public class CreateGraph {
     //public static String path = "C:\\Users\\musta\\Desktop\\Hacettepe\\DREAM\\brunson_southern-women\\out.brunson_southern-women_southern-women";
     //public static String path = "C:\\Users\\musta\\Desktop\\Hacettepe\\DREAM\\amazon-ratings\\out.txt";
     //public static String path = "C:\\Users\\musta\\Desktop\\Hacettepe\\DREAM\\download.tsv.edit-aawiki\\edit-aawiki\\out.edit-aawiki";
-    public static String path = "C:\\Users\\musta\\Desktop\\Hacettepe\\DREAM\\download.tsv.edit-novwiki\\edit-novwiki\\out.edit-novwiki";
+//   public static String path = "C:\\Users\\musta\\Desktop\\Hacettepe\\DREAM\\download.tsv.edit-novwiki\\edit-novwiki\\out.edit-novwiki";
 //    public static String path = "C:\\Users\\User\\Desktop\\BBM479_Data\\out.edit-novwiki";
+    public static String path = "C:\\Users\\musta\\Desktop\\Hacettepe\\DREAM\\final networks\\bag-nips\\out.bag-nips";
+
 
     public static BipartiteGraph graph = new BipartiteGraph();
 

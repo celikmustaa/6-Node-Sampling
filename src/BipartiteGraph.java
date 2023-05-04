@@ -1,3 +1,4 @@
+import java.security.Key;
 import java.sql.Array;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -16,9 +17,9 @@ public class BipartiteGraph {
     public static ArrayList<KeyCount> key_count = new ArrayList<>();
     public static class KeyCount {
         String key;
-        int cycle_count;
+        long cycle_count;
 
-        public KeyCount(String key, int cycle_count){
+        public KeyCount(String key, long cycle_count){
             this.key = key;
             this.cycle_count = cycle_count;
         }
@@ -205,9 +206,9 @@ public class BipartiteGraph {
 
 
     public static Cycle getRandomCycleFromSQL(){
-        int cycle_count = key_count.get(key_count.size() - 1).cycle_count;
+        long cycle_count = key_count.get(key_count.size() - 1).cycle_count;
 
-        int random_number = ThreadLocalRandom.current().nextInt(1, cycle_count + 1);
+        long random_number = ThreadLocalRandom.current().nextLong(1, cycle_count + 1);
 
         String key = key_count.get(binarySearch(random_number)).key;
 
@@ -318,7 +319,7 @@ public class BipartiteGraph {
     }
 
     public void fillKeyCount(){
-        int counter = 0;
+        long counter = 0;
         for(String key: wedge_map_left.keySet()){
             if(wedge_map_left.get(key).size() > 1) {
                 int count = wedge_map_left.get(key).size() * (wedge_map_left.get(key).size() - 1) / 2;
@@ -329,9 +330,9 @@ public class BipartiteGraph {
     }
 
     public Cycle getRandomCycle(){
-        int cycle_count = key_count.get(key_count.size() - 1).cycle_count;
+        long cycle_count = key_count.get(key_count.size() - 1).cycle_count;
 
-        int random_number = ThreadLocalRandom.current().nextInt(1, cycle_count + 1);
+        long random_number = ThreadLocalRandom.current().nextLong(1, cycle_count + 1);
 
         String key = key_count.get(binarySearch(random_number)).key;
 
@@ -361,7 +362,7 @@ public class BipartiteGraph {
 
     // returns an index so that randomNumber is either smaller than or equal to the number in
     // the cumulative array at that index but also randomNumber is greater than the number before that index
-    public static int binarySearch(int randomNumber){
+    public static int binarySearch(long randomNumber){
         int left = 0; int right = key_count.size(); // left inclusive, right exclusive
         while (true){
             if (randomNumber <= key_count.get(left).cycle_count){
@@ -420,11 +421,11 @@ public class BipartiteGraph {
         return fourPath;
     }
 
-    public int getFourPathCount(){
-        int four_path_count = 0;
+    public long getFourPathCount(){
+        long four_path_count = 0;
 
         for (ArrayList<Integer> edge : edge_list){
-            four_path_count += (map.get(edge.get(0)).degree - 1) * (map.get(edge.get(1)).degree - 1);
+            four_path_count += (long) (map.get(edge.get(0)).degree - 1) * (map.get(edge.get(1)).degree - 1);
         }
 
         return four_path_count;
