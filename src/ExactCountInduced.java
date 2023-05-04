@@ -1,11 +1,12 @@
-//import java.util.ArrayList;
-//import java.util.Collections;
-//import java.util.HashMap;
-//
-//public class ExactCountInduced {
-//
-////     6-Vertex Counts
-//
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.stream.Collectors;
+
+public class ExactCountInduced {
+
+//     6-Vertex Counts
+
 //    public static long cycleONECount(Cycle cycle, BipartiteGraph graph){
 //        return ExactCountNonInduced.cycleONECount(cycle, graph);
 //    }
@@ -425,320 +426,246 @@
 //        }
 //        return count;
 //    }
-//
-//    public static long fourPathELEVENCount(FourPath fourPath, BipartiteGraph graph){
-//        long count = 0;
-//
-//        ArrayList<Integer> left_0_adj = new ArrayList<>(fourPath.node_list.get(0).adjacency_list.keySet());
-//        ArrayList<Integer> right_0_adj = new ArrayList<>(fourPath.node_list.get(1).adjacency_list.keySet());
-//        ArrayList<Integer> left_1_adj = new ArrayList<>(fourPath.node_list.get(2).adjacency_list.keySet());
-//        ArrayList<Integer> right_1_adj = new ArrayList<>(fourPath.node_list.get(3).adjacency_list.keySet());
-//
-//        // TODO no need for intersection
-//        left_0_adj.retainAll(left_1_adj);
-//        right_0_adj.retainAll(right_1_adj);
-//
-//        ArrayList<Integer> left_intersection = left_0_adj;
-//        ArrayList<Integer> right_intersection = right_0_adj;
-//        left_0_adj = new ArrayList<>(fourPath.node_list.get(0).adjacency_list.keySet());
-//
-//        left_intersection.remove(Integer.valueOf(fourPath.node_list.get(2).id));
-//        right_intersection.remove(Integer.valueOf(fourPath.node_list.get(1).id));
-//
-//        // RETURN 0 IF FOURPATH IS A CYCLE
-//        if (left_intersection.contains(fourPath.node_list.get(3).id) || right_intersection.contains(fourPath.node_list.get(0).id)){
-//            return 0;
-//        }
-//
-//        for(int id0: left_0_adj){
-//            if (!left_intersection.contains(id0)){ // Induced check
-//                for (int id1: right_1_adj){
-//                    if (!right_intersection.contains(id1)){ // Induced check
-//                        if(graph.map.get(id0).adjacency_list.containsKey(id1)){ // Final edge check
-//                            count ++;
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//
-//        return count;
-//    }
-//
-//    //TODO needs something
-//    public static long fourPathTWELVECount(FourPath fourPath, BipartiteGraph graph){
-//        long count = 0;
-//
-//        return count;
-//    }
-//
-//    public static long fourPathTHIRTEENCount(FourPath fourPath, BipartiteGraph graph){
-//        long count = 0;
-//
-//
-//        ArrayList<Integer> left_0_adj = new ArrayList<>(fourPath.node_list.get(0).adjacency_list.keySet());
-//        ArrayList<Integer> right_0_adj = new ArrayList<>(fourPath.node_list.get(1).adjacency_list.keySet());
-//        ArrayList<Integer> left_1_adj = new ArrayList<>(fourPath.node_list.get(2).adjacency_list.keySet());
-//        ArrayList<Integer> right_1_adj = new ArrayList<>(fourPath.node_list.get(3).adjacency_list.keySet());
-//        // TODO no need for intersection
-//        left_0_adj.retainAll(left_1_adj);
-//        right_0_adj.retainAll(right_1_adj);
-//
-//        ArrayList<Integer> left_intersection = left_0_adj;
-//        ArrayList<Integer> right_intersection = right_0_adj;
-//
-//        left_intersection.remove(Integer.valueOf(fourPath.node_list.get(2).id));
-//        right_intersection.remove(Integer.valueOf(fourPath.node_list.get(1).id));
-//
-//        // RETURN 0 IF FOURPATH IS A CYCLE
-//        if (left_intersection.contains(fourPath.node_list.get(3).id) || right_intersection.contains(fourPath.node_list.get(0).id)){
-//            return 0;
-//        }
-//
-//        for(int id: fourPath.node_list.get(1).adjacency_list.keySet()){
-//            if ((!fourPath.ids.contains(id)) && (!right_intersection.contains(id))){
-//                count++;
-//            }
-//        }
-//        for(int id: fourPath.node_list.get(2).adjacency_list.keySet()){
-//            if ((!fourPath.ids.contains(id)) && (!left_intersection.contains(id))){
-//                count++;
-//            }
-//        }
-//
-//        return count;
-//    }
-//
-//    public static long fourPathFOURTEENCount(FourPath fourPath, BipartiteGraph graph){
-//        long count = 0;
-//
-//        ArrayList<Integer> ids = new ArrayList<>();
-//        for (int i=0; i < 4 ;i++){
-//            ids.add(fourPath.node_list.get(i).id);
-//        }
-//
-//        ArrayList<Integer> left_0_adj = new ArrayList<>(fourPath.node_list.get(0).adjacency_list.keySet());
-//        ArrayList<Integer> right_0_adj = new ArrayList<>(fourPath.node_list.get(1).adjacency_list.keySet());
-//        ArrayList<Integer> left_1_adj = new ArrayList<>(fourPath.node_list.get(2).adjacency_list.keySet());
-//        ArrayList<Integer> right_1_adj = new ArrayList<>(fourPath.node_list.get(3).adjacency_list.keySet());
-//
-//        // TODO no need for intersection
-//        left_0_adj.retainAll(left_1_adj);
-//        right_0_adj.retainAll(right_1_adj);
-//
-//        ArrayList<Integer> left_intersection = left_0_adj;
-//        ArrayList<Integer> right_intersection = right_0_adj;
-//
-//        left_intersection.remove(Integer.valueOf(fourPath.node_list.get(2).id));
-//        right_intersection.remove(Integer.valueOf(fourPath.node_list.get(1).id));
-//
-//        // RETURN 0 IF FOURPATH IS A CYCLE
-//        if (left_intersection.contains(fourPath.node_list.get(3).id) || right_intersection.contains(fourPath.node_list.get(0).id)){
-//            return 0;
-//        }
-//
-//        for(int id0: fourPath.node_list.get(1).adjacency_list.keySet()){
-//            if ((!ids.contains(id0)) && (!right_intersection.contains(id0))){ // Induced check
-//                for(int id1: fourPath.node_list.get(2).adjacency_list.keySet()){
-//                    if ((!ids.contains(id1)) && (!left_intersection.contains(id1))){ //Induced check
-//                        if(!graph.map.get(id0).adjacency_list.containsKey(id1)) { // Final edge check
-//                            count++;
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//
-//        return count;
-//    }
-//
-//
-//    // TODO: do for 0-1 and 2-3 couples
-//    public static long fourPathFIFTEENCount(FourPath fourPath, BipartiteGraph graph){
-//        long count = 0;
-//
-//
-//        ArrayList<Integer> ids = new ArrayList<>();
-//        for (int i=0; i < 4 ;i++){
-//            ids.add(fourPath.node_list.get(i).id);
-//        }
-//
-//        ArrayList<Integer> left_0_adj = new ArrayList<>(fourPath.node_list.get(0).adjacency_list.keySet());
-//        ArrayList<Integer> right_0_adj = new ArrayList<>(fourPath.node_list.get(1).adjacency_list.keySet());
-//        ArrayList<Integer> left_1_adj = new ArrayList<>(fourPath.node_list.get(2).adjacency_list.keySet());
-//        ArrayList<Integer> right_1_adj = new ArrayList<>(fourPath.node_list.get(3).adjacency_list.keySet());
-//
-//        // TODO no need for intersection
-//        left_0_adj.retainAll(left_1_adj);
-//        right_0_adj.retainAll(right_1_adj);
-//
-//        ArrayList<Integer> left_intersection = left_0_adj;
-//        ArrayList<Integer> right_intersection = right_0_adj;
-//        left_0_adj = new ArrayList<>(fourPath.node_list.get(0).adjacency_list.keySet());
-//        right_0_adj = new ArrayList<>(fourPath.node_list.get(1).adjacency_list.keySet());
-//
-//        left_intersection.remove(Integer.valueOf(fourPath.node_list.get(2).id));
-//        right_intersection.remove(Integer.valueOf(fourPath.node_list.get(1).id));
-//
-//        // RETURN 0 IF FOURPATH IS A CYCLE
-//        if (left_intersection.contains(fourPath.node_list.get(3).id) || right_intersection.contains(fourPath.node_list.get(0).id)){
-//            return 0;
-//        }
-//
-//        for(int id0: fourPath.node_list.get(1).adjacency_list.keySet()){
-//            if ((!ids.contains(id0)) && (!right_intersection.contains(id0))){ // Induced check
-//                for (int id1: graph.map.get(id0).adjacency_list.keySet()) {
-//                    if ((!ids.contains(id1)) && (!left_0_adj.contains(id1)) && (!left_1_adj.contains(id1))) { // Induced check
-//                        count++;
-//
-//                    }
-//                }
-//            }
-//        }
-//        for(int id0: fourPath.node_list.get(2).adjacency_list.keySet()){
-//            if ((!ids.contains(id0)) && (!left_intersection.contains(id0))){ // Induced check
-//                for (int id1: graph.map.get(id0).adjacency_list.keySet()){
-//                    if ((!ids.contains(id1)) && (!right_0_adj.contains(id1)) && (!right_1_adj.contains(id1))) { // Induced check
-//                        count++;
-//                    }
-//                }
-//            }
-//        }
-//        return count;
-//    }
-//
-//    public static long fourPathSIXTEENCount(FourPath fourPath, BipartiteGraph graph){
-//        long count = 0;
-//
-//        ArrayList<Integer> ids = new ArrayList<>();
-//        for (int i=0; i < 4 ;i++){
-//            ids.add(fourPath.node_list.get(i).id);
-//        }
-//
-//        ArrayList<Integer> left_0_adj = new ArrayList<>(fourPath.node_list.get(0).adjacency_list.keySet());
-//        ArrayList<Integer> right_0_adj = new ArrayList<>(fourPath.node_list.get(1).adjacency_list.keySet());
-//        ArrayList<Integer> left_1_adj = new ArrayList<>(fourPath.node_list.get(2).adjacency_list.keySet());
-//        ArrayList<Integer> right_1_adj = new ArrayList<>(fourPath.node_list.get(3).adjacency_list.keySet());
-//
-//        left_0_adj.retainAll(left_1_adj);
-//        right_0_adj.retainAll(right_1_adj);
-//
-//        ArrayList<Integer> left_intersection = left_0_adj;
-//        ArrayList<Integer> right_intersection = right_0_adj;
-//
-//        left_intersection.remove(Integer.valueOf(fourPath.node_list.get(2).id));
-//        right_intersection.remove(Integer.valueOf(fourPath.node_list.get(1).id));
-//
-//        // RETURN 0 IF FOURPATH IS A CYCLE
-//        if (left_intersection.contains(fourPath.node_list.get(3).id) || right_intersection.contains(fourPath.node_list.get(0).id)){
-//            return 0;
-//        }
-//
-//        for(int id0: fourPath.node_list.get(0).adjacency_list.keySet()){
-//            if ((!ids.contains(id0)) && (!left_intersection.contains(id0))){ // Induced check
-//                for(int id1: fourPath.node_list.get(0).adjacency_list.keySet()){
-//                    if ((id0 != id1) && (!ids.contains(id0)) && (!left_intersection.contains(id0))) { // Induced check
-//                        count++;
-//                    }
-//                }
-//            }
-//        }
-//
-//        for(int id0: fourPath.node_list.get(3).adjacency_list.keySet()){
-//            if ((!ids.contains(id0)) && (!right_intersection.contains(id0))){ // Induced check
-//                for(int id1: fourPath.node_list.get(3).adjacency_list.keySet()){
-//                    if ((id0 != id1) && (!ids.contains(id0)) && (!right_intersection.contains(id0))) { // Induced check
-//                        count++;
-//                    }
-//                }
-//            }
-//        }
-//
-//        for(int id0: fourPath.node_list.get(1).adjacency_list.keySet()){
-//            if ((!ids.contains(id0)) && (!right_intersection.contains(id0))){ // Induced check
-//                for(int id1: fourPath.node_list.get(3).adjacency_list.keySet()){
-//                    if ((!ids.contains(id1)) && (!right_intersection.contains(id1))){
-//                        count++;
-//                    }
-//                }
-//            }
-//        }
-//
-//        for(int id0: fourPath.node_list.get(2).adjacency_list.keySet()){
-//            if ((!ids.contains(id0)) && (!left_intersection.contains(id0))){ // Induced check
-//                for(int id1: fourPath.node_list.get(0).adjacency_list.keySet()){
-//                    if ((!ids.contains(id1)) && (!left_intersection.contains(id1))){
-//                        count++;
-//                    }
-//                }
-//            }
-//        }
-//
-//        return count;
-//    }
-//
-//    public static long fourPathSEVENTEENCount(FourPath fourPath, BipartiteGraph graph){
-//        long count = 0;
-//
-//
-//        ArrayList<Integer> ids = new ArrayList<>();
-//        for (int i=0; i < 4 ;i++){
-//            ids.add(fourPath.node_list.get(i).id);
-//        }
-//
-//        ArrayList<Integer> left_0_adj = new ArrayList<>(fourPath.node_list.get(0).adjacency_list.keySet());
-//        ArrayList<Integer> right_0_adj = new ArrayList<>(fourPath.node_list.get(1).adjacency_list.keySet());
-//        ArrayList<Integer> left_1_adj = new ArrayList<>(fourPath.node_list.get(2).adjacency_list.keySet());
-//        ArrayList<Integer> right_1_adj = new ArrayList<>(fourPath.node_list.get(3).adjacency_list.keySet());
-//
-//        left_0_adj.retainAll(left_1_adj);
-//        right_0_adj.retainAll(right_1_adj);
-//
-//        ArrayList<Integer> left_intersection = left_0_adj;
-//        ArrayList<Integer> right_intersection = right_0_adj;
-//        left_0_adj = new ArrayList<>(fourPath.node_list.get(0).adjacency_list.keySet());
-//        right_0_adj = new ArrayList<>(fourPath.node_list.get(1).adjacency_list.keySet());
-//
-//        left_intersection.remove(Integer.valueOf(fourPath.node_list.get(2).id));
-//        right_intersection.remove(Integer.valueOf(fourPath.node_list.get(1).id));
-//
-//        // RETURN 0 IF FOURPATH IS A CYCLE
-//        if (left_intersection.contains(fourPath.node_list.get(3).id) || right_intersection.contains(fourPath.node_list.get(0).id)){
-//            return 0;
-//        }
-//
-//        for(int id0: fourPath.node_list.get(3).adjacency_list.keySet()){
-//            if ((!ids.contains(id0)) && (!right_intersection.contains(id0))){ // Induced check
-//                for(int id1: graph.map.get(id0).adjacency_list.keySet()){
-//                    if ((!ids.contains(id1)) && (!left_0_adj.contains(id1)) && (!left_1_adj.contains(id1))) { // Induced check
-//                        count++;
-//                    }
-//                }
-//            }
-//        }
-//
-//        for(int id0: fourPath.node_list.get(0).adjacency_list.keySet()){
-//            if ((!ids.contains(id0)) && (!left_intersection.contains(id0))){ // Induced check
-//                for(int id1: graph.map.get(id0).adjacency_list.keySet()){
-//                    if ((!ids.contains(id1)) && (!right_0_adj.contains(id1)) && (!right_1_adj.contains(id1))) { // Induced check
-//                        count++;
-//                    }
-//                }
-//            }
-//        }
-//
-//        for(int id0: fourPath.node_list.get(0).adjacency_list.keySet()){
-//            if ((!ids.contains(id0)) && (!left_intersection.contains(id0))){ // Induced check
-//                for(int id1: fourPath.node_list.get(3).adjacency_list.keySet()){
-//                    if ((!ids.contains(id1)) && (!right_intersection.contains(id1))) { // Induced check
-//                        if (!graph.map.get(id0).adjacency_list.containsKey(id1)) {
-//                            count++;
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//
-//        return count;
-//    }
-//}
+
+    public static long fourPathELEVENCount(FourPath fourPath, BipartiteGraph graph){
+        long count = 0;
+
+        ArrayList<Integer> left_intersection = getIntersection(new Node[]{fourPath.node_list.get(0), fourPath.node_list.get(2)});
+        ArrayList<Integer> right_intersection = getIntersection(new Node[]{fourPath.node_list.get(1), fourPath.node_list.get(3)});
+
+        left_intersection.remove(Integer.valueOf(fourPath.node_list.get(2).id));
+        right_intersection.remove(Integer.valueOf(fourPath.node_list.get(1).id));
+
+        // RETURN 0 IF FOURPATH IS A CYCLE
+        if (left_intersection.contains(fourPath.node_list.get(3).id) || right_intersection.contains(fourPath.node_list.get(0).id)){
+            return 0;
+        }
+
+        for(int id0: fourPath.node_list.get(0).adjacency_list.keySet()){
+            if (!left_intersection.contains(id0)){ // Induced check
+                for (int id1: fourPath.node_list.get(3).adjacency_list.keySet()){
+                    if (!right_intersection.contains(id1)){ // Induced check
+                        if(graph.map.get(id0).adjacency_list.containsKey(id1)){ // Final edge check
+                            count ++;
+                        }
+                    }
+                }
+            }
+        }
+
+        return count;
+    }
+
+    //TODO needs something
+    public static long fourPathTWELVECount(FourPath fourPath, BipartiteGraph graph){
+        long count = 0;
+
+        return count;
+    }
+
+    public static long fourPathTHIRTEENCount(FourPath fourPath, BipartiteGraph graph){
+        long count = 0;
+
+        ArrayList<Integer> left_intersection = getIntersection(new Node[]{fourPath.node_list.get(0), fourPath.node_list.get(2)});
+        ArrayList<Integer> right_intersection = getIntersection(new Node[]{fourPath.node_list.get(1), fourPath.node_list.get(3)});
+
+        left_intersection.remove(Integer.valueOf(fourPath.node_list.get(2).id));
+        right_intersection.remove(Integer.valueOf(fourPath.node_list.get(1).id));
+
+        // RETURN 0 IF FOURPATH IS A CYCLE
+        if (left_intersection.contains(fourPath.node_list.get(3).id) || right_intersection.contains(fourPath.node_list.get(0).id)){
+            return 0;
+        }
+
+        for(int id: fourPath.node_list.get(1).adjacency_list.keySet()){
+            if ((!fourPath.ids.contains(id)) && (!right_intersection.contains(id))){
+                count++;
+            }
+        }
+        for(int id: fourPath.node_list.get(2).adjacency_list.keySet()){
+            if ((!fourPath.ids.contains(id)) && (!left_intersection.contains(id))){
+                count++;
+            }
+        }
+
+        return count;
+    }
+
+    public static long fourPathFOURTEENCount(FourPath fourPath, BipartiteGraph graph){
+        long count = 0;
+
+        ArrayList<Integer> left_intersection = getIntersection(new Node[]{fourPath.node_list.get(0), fourPath.node_list.get(2)});
+        ArrayList<Integer> right_intersection = getIntersection(new Node[]{fourPath.node_list.get(1), fourPath.node_list.get(3)});
+
+        left_intersection.remove(Integer.valueOf(fourPath.node_list.get(2).id));
+        right_intersection.remove(Integer.valueOf(fourPath.node_list.get(1).id));
+
+        // RETURN 0 IF FOURPATH IS A CYCLE
+        if (left_intersection.contains(fourPath.node_list.get(3).id) || right_intersection.contains(fourPath.node_list.get(0).id)){
+            return 0;
+        }
+
+        for(int id0: fourPath.node_list.get(1).adjacency_list.keySet()){
+            if ((!fourPath.ids.contains(id0)) && (!right_intersection.contains(id0))){ // Induced check
+                for(int id1: fourPath.node_list.get(2).adjacency_list.keySet()){
+                    if ((!fourPath.ids.contains(id1)) && (!left_intersection.contains(id1))){ //Induced check
+                        if(!graph.map.get(id0).adjacency_list.containsKey(id1)) { // Final edge check
+                            count++;
+                        }
+                    }
+                }
+            }
+        }
+
+        return count;
+    }
+
+    // TODO: do for 0-1 and 2-3 couples
+    public static long fourPathFIFTEENCount(FourPath fourPath, BipartiteGraph graph){
+        long count = 0;
+
+        ArrayList<Integer> left_intersection = getIntersection(new Node[]{fourPath.node_list.get(0), fourPath.node_list.get(2)});
+        ArrayList<Integer> right_intersection = getIntersection(new Node[]{fourPath.node_list.get(1), fourPath.node_list.get(3)});
+
+        left_intersection.remove(Integer.valueOf(fourPath.node_list.get(2).id));
+        right_intersection.remove(Integer.valueOf(fourPath.node_list.get(1).id));
+
+        // RETURN 0 IF FOURPATH IS A CYCLE
+        if (left_intersection.contains(fourPath.node_list.get(3).id) || right_intersection.contains(fourPath.node_list.get(0).id)){
+            return 0;
+        }
+
+        for(int id0: fourPath.node_list.get(1).adjacency_list.keySet()){
+            if ((!fourPath.ids.contains(id0)) && (!right_intersection.contains(id0))){ // Induced check
+                for (int id1: graph.map.get(id0).adjacency_list.keySet()) {
+                    if ((!fourPath.ids.contains(id1)) && (!fourPath.node_list.get(0).adjacency_list.containsKey(id1)) && (!fourPath.node_list.get(2).adjacency_list.containsKey(id1))) { // Induced check
+                        count++;
+
+                    }
+                }
+            }
+        }
+        for(int id0: fourPath.node_list.get(2).adjacency_list.keySet()){
+            if ((!fourPath.ids.contains(id0)) && (!left_intersection.contains(id0))){ // Induced check
+                for (int id1: graph.map.get(id0).adjacency_list.keySet()){
+                    if ((!fourPath.ids.contains(id1)) && (!fourPath.node_list.get(1).adjacency_list.containsKey(id1)) && (!fourPath.node_list.get(3).adjacency_list.containsKey(id1))) { // Induced check
+                        count++;
+                    }
+                }
+            }
+        }
+        return count;
+    }
+
+    public static long fourPathSIXTEENCount(FourPath fourPath, BipartiteGraph graph){
+        long count = 0;
+
+        ArrayList<Integer> left_intersection = getIntersection(new Node[]{fourPath.node_list.get(0), fourPath.node_list.get(2)});
+        ArrayList<Integer> right_intersection = getIntersection(new Node[]{fourPath.node_list.get(1), fourPath.node_list.get(3)});
+
+        left_intersection.remove(Integer.valueOf(fourPath.node_list.get(2).id));
+        right_intersection.remove(Integer.valueOf(fourPath.node_list.get(1).id));
+
+        // RETURN 0 IF FOURPATH IS A CYCLE
+        if (left_intersection.contains(fourPath.node_list.get(3).id) || right_intersection.contains(fourPath.node_list.get(0).id)){
+            return 0;
+        }
+
+        for(int id0: fourPath.node_list.get(0).adjacency_list.keySet()){
+            if ((!fourPath.ids.contains(id0)) && (!left_intersection.contains(id0))){ // Induced check
+                for(int id1: fourPath.node_list.get(0).adjacency_list.keySet()){
+                    if ((id0 != id1) && (!fourPath.ids.contains(id0)) && (!left_intersection.contains(id0))) { // Induced check
+                        count++;
+                    }
+                }
+            }
+        }
+
+        for(int id0: fourPath.node_list.get(3).adjacency_list.keySet()){
+            if ((!fourPath.ids.contains(id0)) && (!right_intersection.contains(id0))){ // Induced check
+                for(int id1: fourPath.node_list.get(3).adjacency_list.keySet()){
+                    if ((id0 != id1) && (!fourPath.ids.contains(id0)) && (!right_intersection.contains(id0))) { // Induced check
+                        count++;
+                    }
+                }
+            }
+        }
+
+        for(int id0: fourPath.node_list.get(1).adjacency_list.keySet()){
+            if ((!fourPath.ids.contains(id0)) && (!right_intersection.contains(id0))){ // Induced check
+                for(int id1: fourPath.node_list.get(3).adjacency_list.keySet()){
+                    if ((!fourPath.ids.contains(id1)) && (!right_intersection.contains(id1))){
+                        count++;
+                    }
+                }
+            }
+        }
+
+        for(int id0: fourPath.node_list.get(2).adjacency_list.keySet()){
+            if ((!fourPath.ids.contains(id0)) && (!left_intersection.contains(id0))){ // Induced check
+                for(int id1: fourPath.node_list.get(0).adjacency_list.keySet()){
+                    if ((!fourPath.ids.contains(id1)) && (!left_intersection.contains(id1))){
+                        count++;
+                    }
+                }
+            }
+        }
+
+        return count;
+    }
+
+    public static long fourPathSEVENTEENCount(FourPath fourPath, BipartiteGraph graph){
+        long count = 0;
+
+        ArrayList<Integer> left_intersection = getIntersection(new Node[]{fourPath.node_list.get(0), fourPath.node_list.get(2)});
+        ArrayList<Integer> right_intersection = getIntersection(new Node[]{fourPath.node_list.get(1), fourPath.node_list.get(3)});
+
+        left_intersection.remove(Integer.valueOf(fourPath.node_list.get(2).id));
+        right_intersection.remove(Integer.valueOf(fourPath.node_list.get(1).id));
+
+        // RETURN 0 IF FOURPATH IS A CYCLE
+        if (left_intersection.contains(fourPath.node_list.get(3).id) || right_intersection.contains(fourPath.node_list.get(0).id)){
+            return 0;
+        }
+
+        for(int id0: fourPath.node_list.get(3).adjacency_list.keySet()){
+            if ((!fourPath.ids.contains(id0)) && (!right_intersection.contains(id0))){ // Induced check
+                for(int id1: graph.map.get(id0).adjacency_list.keySet()){
+                    if ((!fourPath.ids.contains(id1)) && (!fourPath.node_list.get(0).adjacency_list.containsKey(id1)) && (!fourPath.node_list.get(2).adjacency_list.containsKey(id1))) { // Induced check
+                        count++;
+                    }
+                }
+            }
+        }
+
+        for(int id0: fourPath.node_list.get(0).adjacency_list.keySet()){
+            if ((!fourPath.ids.contains(id0)) && (!left_intersection.contains(id0))){ // Induced check
+                for(int id1: graph.map.get(id0).adjacency_list.keySet()){
+                    if ((!fourPath.ids.contains(id1)) && (!fourPath.node_list.get(1).adjacency_list.containsKey(id1)) && (!fourPath.node_list.get(3).adjacency_list.containsKey(id1))) { // Induced check
+                        count++;
+                    }
+                }
+            }
+        }
+
+        for(int id0: fourPath.node_list.get(0).adjacency_list.keySet()){
+            if ((!fourPath.ids.contains(id0)) && (!left_intersection.contains(id0))){ // Induced check
+                for(int id1: fourPath.node_list.get(3).adjacency_list.keySet()){
+                    if ((!fourPath.ids.contains(id1)) && (!right_intersection.contains(id1))) { // Induced check
+                        if (!graph.map.get(id0).adjacency_list.containsKey(id1)) {
+                            count++;
+                        }
+                    }
+                }
+            }
+        }
+
+        return count;
+    }
+
+    public static ArrayList<Integer> getIntersection(Node[] nodes) {
+        return nodes[0].adjacency_list.keySet().stream()
+                .filter(nodes[1].adjacency_list.keySet()::contains).collect(Collectors.toCollection(ArrayList::new));
+
+    }
+}
