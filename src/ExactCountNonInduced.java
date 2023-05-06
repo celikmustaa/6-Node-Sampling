@@ -39,35 +39,43 @@ public class ExactCountNonInduced {
     public static long cycleTHREECount(Cycle cycle, BipartiteGraph graph) {
         long count = 0;
 
-        for (int id : cycle.left_nodes[0].adjacency_list.keySet()) {
-            if (!cycle.map.containsKey(id)) {
-                HashMap<Integer, Integer> id_adj = graph.map.get(id).adjacency_list;
-                for (int id2 : cycle.right_nodes[0].adjacency_list.keySet()) {
-                    if (!cycle.map.containsKey(id2) && id_adj.containsKey(id2)) {
-                        if (cycle.left_nodes[1].adjacency_list.containsKey(id) || cycle.right_nodes[1].adjacency_list.containsKey(id2)) {
-                            count += 1;
-                        }
-
-                    }
-                }
-            }
-        }
-
-        for (int id : cycle.left_nodes[1].adjacency_list.keySet()) {
-            if (!cycle.map.containsKey(id)) {
-                HashMap<Integer, Integer> id_adj = graph.map.get(id).adjacency_list;
-                for (int id3 : cycle.right_nodes[1].adjacency_list.keySet()) {
-                    if (!cycle.map.containsKey(id3) && id_adj.containsKey(id3)) {
-                        if (cycle.left_nodes[0].adjacency_list.containsKey(id) || cycle.right_nodes[0].adjacency_list.containsKey(id3)) {
-                            count += 1;
-                        }
-                    }
-                }
-            }
-        }
-
         ArrayList<Integer> left_intersection = getIntersection(cycle.left_nodes);
         ArrayList<Integer> right_intersection = getIntersection(cycle.right_nodes);
+
+        for(int id: left_intersection) {
+            if (!cycle.map.containsKey(id)){
+                for(int id2: graph.map.get(id).adjacency_list.keySet()) {
+                    if (!cycle.map.containsKey(id2)){
+                        if(cycle.right_nodes[0].adjacency_list.containsKey(id2)){
+                            count += 1;
+                        }
+                        if(cycle.right_nodes[1].adjacency_list.containsKey(id2)){
+                            count += 1;
+                        }
+                    }
+                }
+            }
+        }
+
+
+        for(int id: right_intersection) {
+            if (!cycle.map.containsKey(id)){
+                for(int id2: graph.map.get(id).adjacency_list.keySet()) {
+                    if (!cycle.map.containsKey(id2)){
+                        if(cycle.left_nodes[0].adjacency_list.containsKey(id2)){
+                            count += 1;
+                        }
+                        if(cycle.left_nodes[1].adjacency_list.containsKey(id2)){
+                            count += 1;
+                        }
+                    }
+                }
+            }
+        }
+
+
+
+
         count += (long) (left_intersection.size()-2)* (right_intersection.size()-2);
 
 
@@ -105,13 +113,10 @@ public class ExactCountNonInduced {
             }
         }
 
-        // If right cycle is chosen
+        // If right or outer cycle is chosen
         count += (long) (cycle.right_nodes[0].degree - 2 + cycle.right_nodes[1].degree - 2) * (left_intersection.size() - 2);
         count += (long) (cycle.left_nodes[0].degree - 2 + cycle.left_nodes[1].degree - 2) * (right_intersection.size() - 2);
 
-        // If outer cycle is chosen (same as right cycle)
-        count += (long) (cycle.right_nodes[0].degree - 2 + cycle.right_nodes[1].degree - 2) * (left_intersection.size() - 2);
-        count += (long) (cycle.left_nodes[0].degree - 2 + cycle.left_nodes[1].degree - 2) * (right_intersection.size() - 2);
 
         return count;
     }
@@ -295,17 +300,35 @@ public class ExactCountNonInduced {
         for (int id : fourPath.node_list.get(1).adjacency_list.keySet()) {
             if (fourPath.ids.contains(id)) continue;
 
-            count += graph.map.get(id).degree - 1;
+            if (fourPath.node_list.get(3).adjacency_list.containsKey(id)) {
+                count += graph.map.get(id).degree - 2;
+            } else {
+                count += graph.map.get(id).degree - 1;
+            }
+
         }
 
         for (int id : fourPath.node_list.get(2).adjacency_list.keySet()) {
             if (fourPath.ids.contains(id)) continue;
 
-            count += graph.map.get(id).degree - 1;
+            if (fourPath.node_list.get(0).adjacency_list.containsKey(id)) {
+                count += graph.map.get(id).degree - 2;
+            } else {
+                count += graph.map.get(id).degree - 1;
+            }
         }
 
-        count += (long) (fourPath.node_list.get(0).degree - 1) * (fourPath.node_list.get(1).degree - 2) * 2;
-        count += (long) (fourPath.node_list.get(3).degree - 1) * (fourPath.node_list.get(2).degree - 2) * 2;
+        if (fourPath.node_list.get(0).adjacency_list.containsKey(fourPath.node_list.get(1).id)) {
+            count += (long) (fourPath.node_list.get(0).degree - 2) * (fourPath.node_list.get(1).degree - 2);
+        } else {
+            count += (long) (fourPath.node_list.get(0).degree - 1) * (fourPath.node_list.get(1).degree - 2);
+        }
+
+        if (fourPath.node_list.get(3).adjacency_list.containsKey(fourPath.node_list.get(2).id)) {
+            count += (long) (fourPath.node_list.get(3).degree - 2) * (fourPath.node_list.get(2).degree - 2);
+        } else {
+            count += (long) (fourPath.node_list.get(3).degree - 1) * (fourPath.node_list.get(2).degree - 2);
+        }
 
         return count;
     }
