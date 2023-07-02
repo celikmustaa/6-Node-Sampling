@@ -1,15 +1,74 @@
 import java.text.NumberFormat;
 import java.text.DecimalFormat;
-
 public class Main {
     public static void main(String[] args) {
+
+
+        int i = 0, j;
+        String arg;
+        String graph_path = "";
+        long cycle_count = 0;
+        String separator = "\t";
+
+        int[] k_sets = {10, 50, 100, 200, 500, 1000, 5000};
+
+
+        while (i < args.length && args[i].startsWith("-")) {
+            arg = args[i++];
+
+            switch (arg) {
+                case "-p":
+                    if (i < args.length) {
+                        graph_path = args[i++];
+                    } else {
+                        System.err.println("-p requires a file path");
+                    }
+
+                    break;
+                case "-cc":
+                    if (i < args.length) {
+                        cycle_count = Long.parseLong(args[i++]);
+                    } else {
+                        System.err.println("-cc requires a numeric value");
+                    }
+                    break;
+                case "-sep":
+                    if (i < args.length) {
+                        separator = args[i++];
+                    } else {
+                        System.err.println("-sep requires a string value");
+                    }
+                    break;
+
+                case "-samp":
+                    if (i < args.length) {
+                        k_sets = new int[]{Integer.parseInt(args[i++])};
+                    } else {
+                        System.err.println("-samp requires a sample count");
+                    }
+                    break;
+            }
+        }
+
+        if (i != args.length || graph_path.equals("")) {
+            System.err.println("Usage: Main -p graph_path [-cc cycle_count (0)] [-sep separator (\\t)] [-samp sample_count] ");
+        }
+        else {
+            System.out.println("Arguments are parsed!");
+        }
+
+
+        CreateGraph.path = graph_path;
+        Sample.CYCLE_COUNT = cycle_count;
+        CreateGraph.separator = separator;
+
+
+
         NumberFormat numFormat = new DecimalFormat("0.####E0");
 
 
 //        FileFormatter.toMotivo();
 //        FileFormatter.toPGD();
-
-        // TODO take graph path, cycleCount and separator as parameter
 
         BipartiteGraph graph = CreateGraph.createGraph();
         graph.fillEdgeFourPathCounts(graph);
@@ -19,7 +78,7 @@ public class Main {
 
 
 
-        int[] k_sets = {10, 50, 100, 200, 500, 1000, 5000};
+
 
         System.out.println("Number of cycles: "+ Sample.CYCLE_COUNT);
         Sample.FOUR_PATH_COUNT = graph.edge_four_path_counts.get(graph.edge_four_path_counts.size()-1).four_path_count;
