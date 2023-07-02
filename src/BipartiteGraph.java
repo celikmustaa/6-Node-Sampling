@@ -1,512 +1,162 @@
-import java.security.Key;
-import java.sql.Array;
-import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.ThreadLocalRandom;
 
-// TODO: use long instead of int?
 public class BipartiteGraph {
-    public HashMap<Integer, Integer> L;             // node_id: node_id
-    public HashMap<Integer, Integer> R;             // node_id: node_id
+
+    // Left nodes have positive id, Right nodes have negative id
     public HashMap<Integer, Node> map;              // all nodes
     public ArrayList<ArrayList<Integer>> edge_list; // [[n1, -n2],[n3, -n4] ...]
-    public static ArrayList<EdgeFourPathCount> edge_four_path_counts = new ArrayList<>();
+    public ArrayList<EdgeFourPathCount> edge_four_path_counts = new ArrayList<>();
+
     public static class EdgeFourPathCount {
         String edge;
         long four_path_count;
 
-        public EdgeFourPathCount(String edge, long four_path_count){
+        public EdgeFourPathCount(String edge, long four_path_count) {
             this.edge = edge;
             this.four_path_count = four_path_count;
         }
     }
 
-    // TODO: write wedge_map in a file instead of keeping it in in-memory?
-    public HashMap<String, ArrayList<Integer>> wedge_map_left;      // ["n1-n2(key-left)": [-n3, -n1 -n5], "n4-n5(key)": [-n6, -n7 -n5]]
-//    public HashMap<String, ArrayList<Integer>> wedge_map_right;      // ["n1$n2(key$right)": [-n3, -n1 -n5], "n4$n5(key)": [-n6, -n7 -n5]]
-    public static ArrayList<KeyCount> key_count = new ArrayList<>();
-    public static class KeyCount {
-        String key;
-        long cycle_count;
-
-        public KeyCount(String key, long cycle_count){
-            this.key = key;
-            this.cycle_count = cycle_count;
-        }
-    }
 
     public BipartiteGraph() {
-        this.L = new HashMap<>();
-        this.R = new HashMap<>();
         this.map = new HashMap<>();
         this.edge_list = new ArrayList<>();
-        this.wedge_map_left = new HashMap<>();
-        // this.wedge_map_right = new HashMap<>();
-        //this.key_count = new ArrayList<>();
+        this.edge_four_path_counts = new ArrayList<>();
     }
 
-    public void addNode(int id){
-        if(!this.map.containsKey(id)){
+    public void addNode(int id) {
+        if (!this.map.containsKey(id)) {
             this.map.put(id, new Node(id));
-            if (id < 0) {
-                this.R.put(id, id);
-            }
-            else {
-                this.L.put(id, id);
-            }
         }
     }
 
 
-
-
-    public void addEdge(int left_id, int right_id){
-        try {
-            Database.insertEdge.setInt(1, left_id);
-            Database.insertEdge.setInt(2, right_id);
-            Database.insertEdge.addBatch();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void addNodes(int left_id, int right_id){
-        try {
-            Database.insertNode.setInt(1, left_id);
-            Database.insertNode.setInt(2, left_id);
-            Database.insertNode.setInt(3, left_id);
-            Database.insertNode.setInt(4, left_id);
-            Database.insertNode.addBatch();
-
-            Database.insertNode.setInt(1, right_id);
-            Database.insertNode.setInt(2, right_id);
-            Database.insertNode.setInt(3, right_id);
-            Database.insertNode.setInt(4, right_id);
-            Database.insertNode.addBatch();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static Integer[] getAdjacencyList(int node_id) {
-        try {
-            Database.getAdjacencyList.setInt(1, node_id);
-
-            ResultSet rs = Database.getAdjacencyList.executeQuery();
-
-            // TODO it traverses!!!! it is no efficient
-            if (rs.next()) {
-                Array arr = rs.getArray("adjacency_list");
-                return (Integer[])arr.getArray();
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public static void fillWedgeMapTable(){
-        int maxId = 0;
-
-        try {
-            ResultSet rs = Database.getMaxNodeId.executeQuery();
-
-            while (rs.next()) {
-                maxId = rs.getInt("max");
-            }
-
-            System.out.println("maxId is: " + maxId);
-
-            int head = 0;
-            int limit = 100; // TODO 1000
-
-            while(limit < maxId + 101){ // TODO 1001
-                while(head < limit && head <= maxId){
-                    for(int middle: getAdjacencyList(head)){
-                        for(int tail: getAdjacencyList(middle)){
-                            if(tail > head){
-                                String key = head + "$" + tail;
-                                Database.insertWedge.setString(1, key);
-                                Database.insertWedge.setInt(2, middle);
-                                Database.insertWedge.setInt(3, middle);
-                                Database.insertWedge.setString(4, key);
-                                Database.insertWedge.addBatch();
-
-                            }
-                        }
-                    }
-                    head += 1;
-                    System.out.println("Head is: "+ head);
-                }
-                Database.insertWedge.executeBatch();
-                System.out.println("Batch is executed");
-                limit += 100;  // TODO 1000
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
-
-// OLD
-//    public static void fillKeyCountFromSQL() {
-//        try {
-//            ResultSet rs = Database.fillKeyCount.executeQuery();
-//
-//            int last_key_count = 0;
-//            while (rs.next()) {
-//                String key = rs.getString("key");
-//                int count = rs.getInt("count");
-//                key_count.add(new KeyCount(key, count + last_key_count));
-//                last_key_count += count;
-//
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//
-//    }
-
-    public static void fillKeyCountFromSQL() {
-        int wedge_count = 0;
-
-        try {
-            ResultSet rs = Database.getWedgeCount.executeQuery();
-
-            if (rs.next()) {
-                wedge_count = rs.getInt("count");
-            }
-
-            //int last_key_count = 0;
-            for (int i = 1; i<= wedge_count; i++) {
-                //Database.setCumulativeCycleCount.setInt(1, last_key_count);
-                Database.setCumulativeCycleCount.setInt(1, i);
-
-                Database.setCumulativeCycleCount.setInt(2, i);
-
-                Database.setCumulativeCycleCount.addBatch();
-                Database.setCumulativeCycleCount.executeUpdate();
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    public static Integer[] getWedgeList(String key) {
-        Integer[] wedge_list = null;
-
-        try {
-            Database.queryWedge.setString(1, key);
-
-            ResultSet rs = Database.queryWedge.executeQuery();
-
-            while (rs.next()) {
-                wedge_list = (Integer[])rs.getArray("middles").getArray();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return wedge_list;
-    }
-
-
-    public static Cycle getRandomCycleFromSQL(){
-        long cycle_count = key_count.get(key_count.size() - 1).cycle_count;
-
-        long random_number = ThreadLocalRandom.current().nextLong(1, cycle_count + 1);
-
-        String key = key_count.get(binarySearch(random_number)).key;
-
-        int first_random_index = ThreadLocalRandom.current().nextInt(0, getWedgeList(key).length);
-        int second_random_index = ThreadLocalRandom.current().nextInt(0, getWedgeList(key).length-1);
-        if(second_random_index >= first_random_index) {
-            second_random_index++;
-        }
-
-
-        Cycle cycle = new Cycle();
-        String[] splitted = key.split("\\$");
-
-        ArrayList<Integer> node_ids = new ArrayList<>();
-        node_ids.add(Integer.parseInt(splitted[0]));
-        node_ids.add(Integer.parseInt(splitted[1]));
-        node_ids.add(getWedgeList(key)[(first_random_index)]);
-        node_ids.add(getWedgeList(key)[(second_random_index)]);
-
-
-        for(int id: node_ids){
-            Node node = new Node(id);
-            Integer[] adjacency_list = getAdjacencyList(id);
-            HashMap<Integer, Integer> adjacency_map = new HashMap<>();
-
-            for(int neighbour: adjacency_list){
-                adjacency_map.put(neighbour, 1);
-            }
-
-            node.degree = adjacency_list.length;
-            node.adjacency_list = adjacency_map;
-
-//      TODO      cycle.node_list.put(id, node);
-        }
-
-        return cycle;
-
-    }
-
-    public static int getDegree(int node_id) {
-        int degree = 0;
-
-        try {
-            Database.getDegreeOfNode.setInt(1, node_id);
-
-            ResultSet rs = Database.getDegreeOfNode.executeQuery();
-
-            while (rs.next()) {
-                degree = rs.getInt("degree");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return degree;
-    }
-
-    public void connect(int left_id, int right_id){
-        this.addNode(left_id); this.addNode(right_id);
+    public void connect(int left_id, int right_id) {
+        this.addNode(left_id);
+        this.addNode(right_id);
         Node left = this.map.get(left_id);
         Node right = this.map.get(right_id);
 
-        if(!(right.adjacency_list.containsKey(left.id))){ // no multiple edges
+        if (!(right.adjacency_list.containsKey(left.id))) { // no multiple edges
             left.adjacency_list.put(right_id, 1);
             right.adjacency_list.put(left_id, 1);
 
-            left.degree++; right.degree++;
+            left.degree++;
+            right.degree++;
 
             ArrayList<Integer> edge = new ArrayList<>();
-            edge.add(left_id); edge.add(right_id);
+            edge.add(left_id);
+            edge.add(right_id);
             this.edge_list.add(edge);
         }
     }
 
 
-    // TODO
-    public void fillWedgeMap(){
-        // where the middle is right
-        for(int head: L.keySet()){
-            for(int middle: map.get(head).adjacency_list.keySet()){
-                for(int tail: map.get(middle).adjacency_list.keySet()){
-                    if(tail > head){
-                        String key = head + "-" + tail;
-                        if(!wedge_map_left.containsKey(key)){
-                            wedge_map_left.put(key, new ArrayList<>());
-                        }
-                        wedge_map_left.get(key).add(middle);
-                    }
-                }
-            }
-        }
-
-//        // where the middle is left
-//        for(int head: R.keySet()){
-//            for(int middle: map.get(head).adjacency_list.keySet()){
-//                for(int tail: map.get(middle).adjacency_list.keySet()){
-//                    if(tail > head){
-//                        String key = head + "$" + tail;
-//                        if(!wedge_map_right.containsKey(key)){
-//                            wedge_map_right.put(key, new ArrayList<>());
-//                        }
-//                        wedge_map_right.get(key).add(middle);
-//                    }
-//                }
-//            }
-//        }
-
-        fillKeyCount();
-    }
-
-    public void fillKeyCount(){
+    public void fillEdgeFourPathCounts(BipartiteGraph graph) {
         long counter = 0;
-        for(String key: wedge_map_left.keySet()){
-            if(wedge_map_left.get(key).size() > 1) {
-                int count = wedge_map_left.get(key).size() * (wedge_map_left.get(key).size() - 1) / 2; // TODO check int or long
-                counter += count;
-                key_count.add(new KeyCount(key, counter));
-            }
-        }
-    }
-
-    public void fillEdgeFourPathCounts(BipartiteGraph graph){
-        long counter = 0;
-        for(ArrayList<Integer> edge: edge_list){
-            long count = ((long) graph.map.get(edge.get(0)).degree - 1) * (graph.map.get(edge.get(1)).degree - 1);
-            if(count > 0) {
-                counter += count;
+        for (ArrayList<Integer> edge : edge_list) {
+            long fourPathCount = ((long) graph.map.get(edge.get(0)).degree - 1) * (graph.map.get(edge.get(1)).degree - 1);
+            if (fourPathCount > 0) {
+                counter += fourPathCount;
                 edge_four_path_counts.add(new EdgeFourPathCount((edge.get(0) + "$" + edge.get(1)), counter));
             }
         }
     }
 
-    public Cycle getRandomCycle(){
-        long cycle_count = key_count.get(key_count.size() - 1).cycle_count;
 
-        long random_number = ThreadLocalRandom.current().nextLong(1, cycle_count + 1);
-
-        String key = key_count.get(binarySearch(random_number)).key;
-
-        int first_random_index = ThreadLocalRandom.current().nextInt(0, wedge_map_left.get(key).size());
-        int second_random_index = ThreadLocalRandom.current().nextInt(0, wedge_map_left.get(key).size()-1);
-        if(second_random_index >= first_random_index) {
-            second_random_index++;
-        }
-
-
-        Cycle cycle = new Cycle();
-        String[] splitted = key.split("-");
-
-        cycle.map.put(Integer.parseInt(splitted[0]), map.get(Integer.parseInt(splitted[0])));
-        cycle.map.put(Integer.parseInt(splitted[1]), map.get(Integer.parseInt(splitted[1])));
-        cycle.map.put(wedge_map_left.get(key).get(first_random_index), map.get(wedge_map_left.get(key).get(first_random_index)));
-        cycle.map.put(wedge_map_left.get(key).get(second_random_index), map.get(wedge_map_left.get(key).get(second_random_index)));
-
-        cycle.left_nodes[0] = map.get(Integer.parseInt(splitted[0]));
-        cycle.left_nodes[1] = map.get(Integer.parseInt(splitted[1]));
-        cycle.right_nodes[0] = map.get(wedge_map_left.get(key).get(first_random_index));
-        cycle.right_nodes[1] = map.get(wedge_map_left.get(key).get(second_random_index));
-
-        return cycle;
-
-    }
 
     // returns an index so that randomNumber is either smaller than or equal to the number in
     // the cumulative array at that index but also randomNumber is greater than the number before that index
-    public static int binarySearch(long randomNumber){
-        int left = 0; int right = key_count.size(); // left inclusive, right exclusive
-        while (true){
-            if (randomNumber <= key_count.get(left).cycle_count){
+    public static int binarySearch(long randomNumber, ArrayList<EdgeFourPathCount> edge_four_path_counts) {
+        int left = 0;
+        int right = edge_four_path_counts.size(); // left inclusive, right exclusive
+        while (true) {
+            if (randomNumber <= edge_four_path_counts.get(left).four_path_count) {
                 return left;
             }
 
-            int middle = left + (right-left)/2;
+            int middle = left + (right - left) / 2;
 
-            if (randomNumber <= key_count.get(middle).cycle_count && randomNumber > key_count.get(middle-1).cycle_count){
+            if (randomNumber <= edge_four_path_counts.get(middle).four_path_count && randomNumber > edge_four_path_counts.get(middle - 1).four_path_count) {
                 return middle;
             }
 
-            if (randomNumber <= key_count.get(middle).cycle_count){
+            if (randomNumber <= edge_four_path_counts.get(middle).four_path_count) {
                 right = middle;
-            }
-            else{
+            } else {
                 left = middle + 1;
             }
         }
     }
-
-
-    // TODO merge binarySearch algorithms
-    public static int binarySearch2(long randomNumber){
-        int left = 0; int right = edge_four_path_counts.size(); // left inclusive, right exclusive
-        while (true){
-            if (randomNumber <= edge_four_path_counts.get(left).four_path_count){
-                return left;
-            }
-
-            int middle = left + (right-left)/2;
-
-            if (randomNumber <= edge_four_path_counts.get(middle).four_path_count && randomNumber > edge_four_path_counts.get(middle-1).four_path_count){
-                return middle;
-            }
-
-            if (randomNumber <= edge_four_path_counts.get(middle).four_path_count){
-                right = middle;
-            }
-            else{
-                left = middle + 1;
-            }
-        }
-    }
-
-//    public FourPath getRandomFourPath() {
-//        FourPath fourPath = new FourPath();
-//        int random_number = ThreadLocalRandom.current().nextInt(0, edge_list.size());
-//        ArrayList<Integer> random_edge = edge_list.get(random_number);
-//
-//        HashMap<Integer, Integer> node0_adj_map = map.get(random_edge.get(0)).adjacency_list;
-//        HashMap<Integer, Integer> node1_adj_map = map.get(random_edge.get(1)).adjacency_list;
-//
-//        ArrayList<Integer> node0_adj = new ArrayList<>(node0_adj_map.keySet());
-//        ArrayList<Integer> node1_adj = new ArrayList<>(node1_adj_map.keySet());
-//
-//        node0_adj.remove(random_edge.get(1));
-//        node1_adj.remove(random_edge.get(0));
-//
-//        if ((node0_adj.size() > 0) && (node1_adj.size() > 0)){
-//            int random_node_index0 = ThreadLocalRandom.current().nextInt(0, node0_adj.size());
-//            int random_node_index1 = ThreadLocalRandom.current().nextInt(0, node1_adj.size());
-//            fourPath.node_list.put(0, map.get(node0_adj.get(random_node_index0)));
-//            fourPath.node_list.put(1, map.get(random_edge.get(0)));
-//            fourPath.node_list.put(2, map.get(random_edge.get(1)));
-//            fourPath.node_list.put(3, map.get(node1_adj.get(random_node_index1)));
-//
-//            ArrayList<Integer> ids = new ArrayList<>();
-//            for (int i=0; i < 4 ;i++){
-//                ids.add(fourPath.node_list.get(i).id);
-//            }
-//            fourPath.ids = ids;
-//        }
-//        else {
-////            System.out.println("Fourpath doesn't exist for the randomly chosen edge, choosing new edge");
-//            fourPath = getRandomFourPath();
-//        }
-//
-//
-//        return fourPath;
-//    }
 
     public FourPath getRandomFourPath(BipartiteGraph graph) {
         long four_path_count = edge_four_path_counts.get(edge_four_path_counts.size() - 1).four_path_count;
 
         long random_number = ThreadLocalRandom.current().nextLong(1, four_path_count + 1);
 
-        String key = edge_four_path_counts.get(binarySearch2(random_number)).edge;
-
-
+        String key = edge_four_path_counts.get(binarySearch(random_number, graph.edge_four_path_counts)).edge;
 
 
         String[] splitted = key.split("\\$");
 
 
-        // TODO efficiency
-
-        
-        int first_random_index = ThreadLocalRandom.current().nextInt(0, graph.map.get(Integer.parseInt(splitted[0])).adjacency_list.size());
-        int node_id1 = (int) graph.map.get(Integer.parseInt(splitted[0])).adjacency_list.keySet().toArray()[first_random_index];
-        Node node1 = graph.map.get(node_id1);
-
         Node node2 = graph.map.get(Integer.parseInt(splitted[0]));
         Node node3 = graph.map.get(Integer.parseInt(splitted[1]));
 
-        int second_random_index = ThreadLocalRandom.current().nextInt(0, graph.map.get(Integer.parseInt(splitted[1])).adjacency_list.size());
-        int node_id4 = (int) graph.map.get(Integer.parseInt(splitted[1])).adjacency_list.keySet().toArray()[second_random_index];
+        Object[] node2_adjacency_list = node2.adjacency_list.keySet().toArray();
+        Object[] node3_adjacency_list =  node3.adjacency_list.keySet().toArray();
+
+
+        int first_random_index = ThreadLocalRandom.current().nextInt(0, node2.degree);
+        int node_id1 = (int) node2_adjacency_list[first_random_index];
+        // if random node choose by the adjacency list of splitted[0] is actually splitted[1], get another random node
+        while(node_id1 == node3.id) {
+            first_random_index = ThreadLocalRandom.current().nextInt(0, node2.degree);
+            node_id1 = (int) node2_adjacency_list[first_random_index];
+        }
+        Node node1 = graph.map.get(node_id1);
+
+
+
+        int second_random_index = ThreadLocalRandom.current().nextInt(0, node3.degree);
+        int node_id4 = (int) node3_adjacency_list[second_random_index];
+        while(node_id4 == node2.id) {
+            second_random_index = ThreadLocalRandom.current().nextInt(0, node3.degree);
+            node_id4 = (int) node3_adjacency_list[second_random_index];
+        }
         Node node4 = graph.map.get(node_id4);
 
+
+        // each "-" represents an edge: node1-node2-node3-node4 (means that this function returns nodes in order)
         return new FourPath(node1, node2, node3, node4);
     }
 
 
-    // TODO delete
-    public long getFourPathCount(){
-        long four_path_count = 0;
+    public Cycle getRandomCycle(BipartiteGraph graph) {
 
-        for (ArrayList<Integer> edge : edge_list){
-            four_path_count += (long) (map.get(edge.get(0)).degree - 1) * (map.get(edge.get(1)).degree - 1);
+        FourPath fourPath = getRandomFourPath(graph);
+
+        // If four-path is not a cycle
+        while (!fourPath.node_list.get(0).adjacency_list.containsKey(fourPath.node_list.get(3).id)) {
+            fourPath = getRandomFourPath(graph);
         }
 
-        return four_path_count;
+        Cycle cycle = new Cycle();
+
+        int left_counter = 0, right_counter = 0;
+        for (int i = 0; i < 4; i++) {
+            cycle.map.put(fourPath.node_list.get(i).id, fourPath.node_list.get(i));
+            if (fourPath.node_list.get(i).id > 0) {
+                cycle.left_nodes[left_counter++] = fourPath.node_list.get(i);
+            } else {
+                cycle.right_nodes[right_counter++] = fourPath.node_list.get(i);
+            }
+        }
+
+        return cycle;
+
     }
 
 }

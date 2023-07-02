@@ -3,7 +3,7 @@ import java.util.HashMap;
 import java.util.stream.Collectors;
 
 public class ExactCountNonInduced {
-    public static long cycleONECount(Cycle cycle, BipartiteGraph graph) {
+    public static long cycleM1Count(Cycle cycle, BipartiteGraph graph) {
         long count = 0;
 
         for (int id : cycle.left_nodes[0].adjacency_list.keySet()) {
@@ -23,7 +23,7 @@ public class ExactCountNonInduced {
         return count;
     }
 
-    public static long cycleTWOCount(Cycle cycle, BipartiteGraph graph) {
+    public static long cycleM2Count(Cycle cycle, BipartiteGraph graph) {
         long count = 0;
 
         ArrayList<Integer> left_intersection = getIntersection(cycle.left_nodes);
@@ -36,36 +36,20 @@ public class ExactCountNonInduced {
         return count;
     }
 
-    public static long cycleTHREECount(Cycle cycle, BipartiteGraph graph) {
+    public static long cycleM3Count(Cycle cycle, BipartiteGraph graph) {
         long count = 0;
 
         ArrayList<Integer> left_intersection = getIntersection(cycle.left_nodes);
         ArrayList<Integer> right_intersection = getIntersection(cycle.right_nodes);
 
-        for(int id: left_intersection) {
-            if (!cycle.map.containsKey(id)){
-                for(int id2: graph.map.get(id).adjacency_list.keySet()) {
-                    if (!cycle.map.containsKey(id2)){
-                        if(cycle.right_nodes[0].adjacency_list.containsKey(id2)){
+        for (int id : left_intersection) {
+            if (!cycle.map.containsKey(id)) {
+                for (int id2 : graph.map.get(id).adjacency_list.keySet()) {
+                    if (!cycle.map.containsKey(id2)) {
+                        if (cycle.right_nodes[0].adjacency_list.containsKey(id2)) {
                             count += 1;
                         }
-                        if(cycle.right_nodes[1].adjacency_list.containsKey(id2)){
-                            count += 1;
-                        }
-                    }
-                }
-            }
-        }
-
-
-        for(int id: right_intersection) {
-            if (!cycle.map.containsKey(id)){
-                for(int id2: graph.map.get(id).adjacency_list.keySet()) {
-                    if (!cycle.map.containsKey(id2)){
-                        if(cycle.left_nodes[0].adjacency_list.containsKey(id2)){
-                            count += 1;
-                        }
-                        if(cycle.left_nodes[1].adjacency_list.containsKey(id2)){
+                        if (cycle.right_nodes[1].adjacency_list.containsKey(id2)) {
                             count += 1;
                         }
                     }
@@ -74,15 +58,29 @@ public class ExactCountNonInduced {
         }
 
 
+        for (int id : right_intersection) {
+            if (!cycle.map.containsKey(id)) {
+                for (int id2 : graph.map.get(id).adjacency_list.keySet()) {
+                    if (!cycle.map.containsKey(id2)) {
+                        if (cycle.left_nodes[0].adjacency_list.containsKey(id2)) {
+                            count += 1;
+                        }
+                        if (cycle.left_nodes[1].adjacency_list.containsKey(id2)) {
+                            count += 1;
+                        }
+                    }
+                }
+            }
+        }
 
 
-        count += (long) (left_intersection.size()-2)* (right_intersection.size()-2);
+        count += (long) (left_intersection.size() - 2) * (right_intersection.size() - 2);
 
 
         return count;
     }
 
-    public static long cycleFOURCount(Cycle cycle, BipartiteGraph graph) {
+    public static long cycleM4Count(Cycle cycle, BipartiteGraph graph) {
         long count = 0;
 
         ArrayList<Integer> left_intersection = getIntersection(cycle.left_nodes);
@@ -94,7 +92,7 @@ public class ExactCountNonInduced {
         return count;
     }
 
-    public static long cycleFIVECount(Cycle cycle, BipartiteGraph graph) {
+    public static long cycleM5Count(Cycle cycle, BipartiteGraph graph) {
         long count = 0;
 
         ArrayList<Integer> left_intersection = getIntersection(cycle.left_nodes);
@@ -121,7 +119,7 @@ public class ExactCountNonInduced {
         return count;
     }
 
-    public static long cycleSIXCount(Cycle cycle, BipartiteGraph graph) {
+    public static long cycleM6Count(Cycle cycle, BipartiteGraph graph) {
         long count = 0;
 
         for (int id : cycle.left_nodes[0].adjacency_list.keySet()) {
@@ -159,7 +157,24 @@ public class ExactCountNonInduced {
         return count;
     }
 
-    public static long cycleSEVENCount(Cycle cycle, BipartiteGraph graph) {
+
+    public static long cycleM7Count(Cycle cycle, BipartiteGraph graph) {
+        long count = 0;
+
+        for (Node node : cycle.map.values()) {
+            long neighbors = 0;
+            for (int neighbor_id : node.adjacency_list.keySet()) {
+                if (!cycle.map.containsKey(neighbor_id)) {
+                    neighbors++; // TODO: use (degree -2) as neighbour count
+                }
+            }
+            count += neighbors * (neighbors - 1) / 2;
+        }
+
+        return count;
+    }
+
+    public static long cycleM8Count(Cycle cycle, BipartiteGraph graph) {
         long count = 0;
 
         for (Node left_node : cycle.left_nodes) {
@@ -171,24 +186,7 @@ public class ExactCountNonInduced {
         return count;
     }
 
-    public static long cycleEIGHTCount(Cycle cycle, BipartiteGraph graph) {
-        long count = 0;
-
-        for (Node node : cycle.map.values()) {
-            long neighbors = 0;
-            for (int neighbor_id : node.adjacency_list.keySet()) {
-                if (!cycle.map.containsKey(neighbor_id)) {
-                    neighbors++;
-                }
-            }
-            count += neighbors * (neighbors - 1) / 2;
-        }
-
-        return count;
-    }
-
-    // TODO: L - R bilgisini kullan
-    public static long cycleNINECount(Cycle cycle, BipartiteGraph graph) {
+    public static long cycleM9Count(Cycle cycle, BipartiteGraph graph) {
         long count = 0;
 
         count += (long) (cycle.left_nodes[0].degree - 2) * (cycle.left_nodes[1].degree - 2) - (getIntersection(cycle.left_nodes).size() - 2);
@@ -198,7 +196,7 @@ public class ExactCountNonInduced {
     }
 
 
-    public static long cycleTENCount(Cycle cycle, BipartiteGraph graph) {
+    public static long cycleM10Count(Cycle cycle, BipartiteGraph graph) {
         long count = 0;
 
         for (int neighbour_id : cycle.left_nodes[0].adjacency_list.keySet()) {
@@ -245,15 +243,7 @@ public class ExactCountNonInduced {
         return count;
     }
 
-    public static long cycleTENCountSQL(Cycle cycle) {
-        long count = 0;
-
-
-
-        return count;
-    }
-
-    public static long fourPathELEVENCount(FourPath fourPath, BipartiteGraph graph) {
+    public static long fourPathM11Count(FourPath fourPath, BipartiteGraph graph) {
         long count = 0;
 
         for (int id0 : fourPath.node_list.get(0).adjacency_list.keySet()) {
@@ -271,13 +261,13 @@ public class ExactCountNonInduced {
         return count;
     }
 
-    public static long fourPathTWELVECount(FourPath fourPath, BipartiteGraph graph) {
+    public static long fourPathM12Count(FourPath fourPath, BipartiteGraph graph) {
         long count = 0;
 
         return count;
     }
 
-    public static long fourPathTHIRTEENCount(FourPath fourPath, BipartiteGraph graph) {
+    public static long fourPathM13Count(FourPath fourPath, BipartiteGraph graph) {
         long count = 0;
 
         int node1_degree = (fourPath.node_list.get(1).degree - 2);
@@ -289,12 +279,11 @@ public class ExactCountNonInduced {
         return count;
     }
 
-    public static long fourPathFOURTEENCount(FourPath fourPath, BipartiteGraph graph) {
+    public static long fourPathM14Count(FourPath fourPath, BipartiteGraph graph) {
         return (long) (fourPath.node_list.get(1).degree - 2) * (fourPath.node_list.get(2).degree - 2);
     }
 
-    // TODO - Think over the algorithms, should we multiply by 2?
-    public static long fourPathFIFTEENCount(FourPath fourPath, BipartiteGraph graph) {
+    public static long fourPathM15Count(FourPath fourPath, BipartiteGraph graph) {
         long count = 0;
 
         for (int id : fourPath.node_list.get(1).adjacency_list.keySet()) {
@@ -318,22 +307,18 @@ public class ExactCountNonInduced {
             }
         }
 
-        if (fourPath.node_list.get(0).adjacency_list.containsKey(fourPath.node_list.get(1).id)) {
+        if (fourPath.node_list.get(0).adjacency_list.containsKey(fourPath.node_list.get(3).id)) {
             count += (long) (fourPath.node_list.get(0).degree - 2) * (fourPath.node_list.get(1).degree - 2);
-        } else {
-            count += (long) (fourPath.node_list.get(0).degree - 1) * (fourPath.node_list.get(1).degree - 2);
-        }
-
-        if (fourPath.node_list.get(3).adjacency_list.containsKey(fourPath.node_list.get(2).id)) {
             count += (long) (fourPath.node_list.get(3).degree - 2) * (fourPath.node_list.get(2).degree - 2);
         } else {
+            count += (long) (fourPath.node_list.get(0).degree - 1) * (fourPath.node_list.get(1).degree - 2);
             count += (long) (fourPath.node_list.get(3).degree - 1) * (fourPath.node_list.get(2).degree - 2);
         }
 
         return count;
     }
 
-    public static long fourPathSIXTEENCount(FourPath fourPath, BipartiteGraph graph) {
+    public static long fourPathM16Count(FourPath fourPath, BipartiteGraph graph) {
         long count = 0;
 
         int node0_degree = (fourPath.node_list.get(0).degree - 1);
@@ -347,10 +332,10 @@ public class ExactCountNonInduced {
         return count;
     }
 
-    public static long fourPathSEVENTEENCount(FourPath fourPath, BipartiteGraph graph) {
+    public static long fourPathM17Count(FourPath fourPath, BipartiteGraph graph) {
         long count = 0;
 
-        if (fourPath.node_list.get(0).adjacency_list.containsKey(fourPath.node_list.get(3).id)){
+        if (fourPath.node_list.get(0).adjacency_list.containsKey(fourPath.node_list.get(3).id)) {
             count += (long) (fourPath.node_list.get(0).degree - 2) * (fourPath.node_list.get(3).degree - 2);
         } else {
             count += (long) (fourPath.node_list.get(0).degree - 1) * (fourPath.node_list.get(3).degree - 1);

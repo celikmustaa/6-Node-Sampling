@@ -1,346 +1,273 @@
 public class Sample {
-    public static long CYCLE_COUNT = 0;
+    // nov-wiki: 85469928L, bag-nips: 7325274840L, komarix-citeseer: 1005817L, amazon-ratings: 35849304L, ja-wiki: , live-journal: , orkut: 22100000000000L
+    public static long CYCLE_COUNT = 7325274840L;
     public static long FOUR_PATH_COUNT = 0;
     // 6-Vertex Samplings
 
     //NBNM-52
-    public static double cycleONESample(int k, BipartiteGraph graph, boolean isInduced){
+    public static double cycleM1Sample(int k, BipartiteGraph graph) {
         double final_result = 0;
-        for(int i=0; i<k; i++){
-            Cycle cycle = graph.getRandomCycle();
+        for (int i = 0; i < k; i++) {
+            Cycle cycle = graph.getRandomCycle(graph);
 
             long count;
-            if (isInduced){
-                count = ExactCountNonInduced.cycleONECount(cycle, graph);
-            }
-            else {
-                count = ExactCountNonInduced.cycleONECount(cycle, graph);
-            }
+
+            count = ExactCountNonInduced.cycleM1Count(cycle, graph);
             final_result += count;
         }
-        return final_result/k*CYCLE_COUNT / 9;
+        return final_result / k * CYCLE_COUNT / 9;
     }
 
     //ADPM-73
-    public static double cycleTWOSample(int k, BipartiteGraph graph, boolean isInduced){
+    public static double cycleM2Sample(int k, BipartiteGraph graph) {
         double final_result = 0;
-        for(int i=0; i<k; i++){
-            Cycle cycle = graph.getRandomCycle();
+        for (int i = 0; i < k; i++) {
+            Cycle cycle = graph.getRandomCycle(graph);
 
             long count;
-            if (isInduced){
-                count = ExactCountNonInduced.cycleTWOCount(cycle, graph);
-            }
-            else {
-                count = ExactCountNonInduced.cycleTWOCount(cycle, graph);
-            }
+
+            count = ExactCountNonInduced.cycleM2Count(cycle, graph);
+
             final_result += count;
         }
-        return final_result/k*CYCLE_COUNT / 6;
+        return final_result / k * CYCLE_COUNT / 6;
     }
 
     //FBNM-74
-    public static double cycleTHREESample(int k, BipartiteGraph graph, boolean isInduced){
+    public static double cycleM3Sample(int k, BipartiteGraph graph) {
         double final_result = 0;
-        for(int i=0; i<k; i++){
-            Cycle cycle = graph.getRandomCycle();
+        for (int i = 0; i < k; i++) {
+            Cycle cycle = graph.getRandomCycle(graph);
 
             long count;
-            if (isInduced){
-                count = ExactCountNonInduced.cycleTHREECount(cycle, graph);
-            }
-            else {
-                count = ExactCountNonInduced.cycleTHREECount(cycle, graph);
-            }
+
+            count = ExactCountNonInduced.cycleM3Count(cycle, graph);
+
             final_result += count;
         }
-        return final_result/k*CYCLE_COUNT / 5;
+        return final_result / k * CYCLE_COUNT / 5;
     }
 
     //ABPM-90
-    public static double cycleFOURSample(int k, BipartiteGraph graph, boolean isInduced){
+    public static double cycleM4Sample(int k, BipartiteGraph graph) {
         double final_result = 0;
-        for(int i=0; i<k; i++){
-            Cycle cycle = graph.getRandomCycle();
+        for (int i = 0; i < k; i++) {
+            Cycle cycle = graph.getRandomCycle(graph);
 
             long count;
-            if (isInduced){
-                count = ExactCountNonInduced.cycleFOURCount(cycle, graph);
-            }
-            else {
-                count = ExactCountNonInduced.cycleFOURCount(cycle, graph);
-            }
+
+            count = ExactCountNonInduced.cycleM4Count(cycle, graph);
+
             final_result += count;
         }
-        return final_result/k*CYCLE_COUNT / 3;
+        return final_result / k * CYCLE_COUNT / 3;
     }
 
     //BBNM-91
-    public static double cycleFIVESample(int k, BipartiteGraph graph, boolean isInduced){
+    public static double cycleM5Sample(int k, BipartiteGraph graph) {
         double final_result = 0;
-        for(int i=0; i<k; i++){
-            Cycle cycle = graph.getRandomCycle();
+        for (int i = 0; i < k; i++) {
+            Cycle cycle = graph.getRandomCycle(graph);
 
             long count;
-            if (isInduced){
-                count = ExactCountNonInduced.cycleFIVECount(cycle, graph);
-            }
-            else {
-                count = ExactCountNonInduced.cycleFIVECount(cycle, graph);
-            }
+
+            count = ExactCountNonInduced.cycleM5Count(cycle, graph);
+
             final_result += count;
         }
-        return final_result/k*CYCLE_COUNT / 3;
+        return final_result / k * CYCLE_COUNT / 3;
     }
 
     //IGFK-92
-    public static double cycleSIXSample(int k, BipartiteGraph graph, boolean isInduced){
+    public static double cycleM6Sample(int k, BipartiteGraph graph) {
         double final_result = 0;
-        for(int i=0; i<k; i++){
-            Cycle cycle = graph.getRandomCycle();
+        for (int i = 0; i < k; i++) {
+            Cycle cycle = graph.getRandomCycle(graph);
 
             long count;
-            if (isInduced){
-                count = ExactCountNonInduced.cycleSIXCount(cycle, graph);
-            }
-            else {
-                count = ExactCountNonInduced.cycleSIXCount(cycle, graph);
-            }
+
+            count = ExactCountNonInduced.cycleM6Count(cycle, graph);
+
             final_result += count;
         }
-        return final_result/k*CYCLE_COUNT / 2;
-    }
-
-    //AGJG-102
-    public static double cycleSEVENSample(int k, BipartiteGraph graph, boolean isInduced){
-        double final_result = 0;
-        for(int i=0; i<k; i++){
-            Cycle cycle = graph.getRandomCycle();
-
-            long count;
-            if (isInduced){
-                count = ExactCountNonInduced.cycleSEVENCount(cycle, graph);
-            }
-            else {
-                count = ExactCountNonInduced.cycleSEVENCount(cycle, graph);
-            }
-            final_result += count;
-        }
-        return final_result/k*CYCLE_COUNT;
+        return final_result / k * CYCLE_COUNT / 2;
     }
 
     //AAPM-101
-    public static double cycleEIGHTSample(int sample, BipartiteGraph graph, boolean isInduced){
+    public static double cycleM7Sample(int k, BipartiteGraph graph) {
         double final_result = 0;
-        for(int i=0; i<sample; i++){
-            Cycle cycle = graph.getRandomCycle();
+        for (int i = 0; i < k; i++) {
+            Cycle cycle = graph.getRandomCycle(graph);
 
             long count;
-            if (isInduced){
-                count = ExactCountNonInduced.cycleEIGHTCount(cycle, graph);
-            }
-            else {
-                count = ExactCountNonInduced.cycleEIGHTCount(cycle, graph);
-            }
+
+            count = ExactCountNonInduced.cycleM7Count(cycle, graph);
+
+            final_result += count;
+        }
+        return final_result / k * CYCLE_COUNT;
+    }
+
+    //AGJG-102
+    public static double cycleM8Sample(int sample, BipartiteGraph graph) {
+        double final_result = 0;
+        for (int i = 0; i < sample; i++) {
+            Cycle cycle = graph.getRandomCycle(graph);
+
+            long count;
+
+            count = ExactCountNonInduced.cycleM8Count(cycle, graph);
 
 
             final_result += count;
         }
-        return (final_result/sample)*CYCLE_COUNT;
+        return (final_result / sample) * CYCLE_COUNT;
     }
 
     //ACNM-103
-    public static double cycleNINESample(int k, BipartiteGraph graph, boolean isInduced){
+    public static double cycleM9Sample(int k, BipartiteGraph graph) {
         double final_result = 0;
-        for(int i=0; i<k; i++){
-            Cycle cycle = graph.getRandomCycle();
+        for (int i = 0; i < k; i++) {
+            Cycle cycle = graph.getRandomCycle(graph);
 
             long count;
-            if (isInduced){
-                count = ExactCountNonInduced.cycleNINECount(cycle, graph);
-            }
-            else {
-                count = ExactCountNonInduced.cycleNINECount(cycle, graph);
-            }
+
+            count = ExactCountNonInduced.cycleM9Count(cycle, graph);
 
 
             final_result += count;
         }
-        return final_result/k*CYCLE_COUNT;
+        return final_result / k * CYCLE_COUNT;
     }
 
     //BBJM-104
-    public static double cycleTENSample(int k, BipartiteGraph graph, boolean isInduced){
+    public static double cycleM10Sample(int k, BipartiteGraph graph) {
         double final_result = 0;
-        for(int i=0; i<k; i++){
-            Cycle cycle = graph.getRandomCycle();
+        for (int i = 0; i < k; i++) {
+            Cycle cycle = graph.getRandomCycle(graph);
 
             long count;
-            if (isInduced){
-                count = ExactCountNonInduced.cycleTENCount(cycle, graph);
-            }
-            else {
-                count = ExactCountNonInduced.cycleTENCount(cycle, graph);
-            }
+
+            count = ExactCountNonInduced.cycleM10Count(cycle, graph);
+
 
             final_result += count;
         }
-        return final_result/k*CYCLE_COUNT;
+        return final_result / k * CYCLE_COUNT;
     }
 
-    //TODO change comment for 11+
+
     //MBEM-106
-    public static double fourPathELEVENSample(int k, BipartiteGraph graph, boolean isInduced){
+    public static double fourPathM11Sample(int k, BipartiteGraph graph) {
         double final_result = 0;
-        for(int i=0; i<k; i++){
+        for (int i = 0; i < k; i++) {
             FourPath fourPath = graph.getRandomFourPath(graph);
 
             long count;
-            if (isInduced){
-                count = ExactCountInduced.fourPathELEVENCount(fourPath, graph); // TODO rename methods like: M11
-            }
-            else {
-                count = ExactCountNonInduced.fourPathELEVENCount(fourPath, graph);
-            }
+
+            count = ExactCountNonInduced.fourPathM11Count(fourPath, graph);
+
 
             final_result += count;
         }
-        return final_result/k*FOUR_PATH_COUNT / 6;
+        return final_result / k * FOUR_PATH_COUNT / 6;
     }
 
     //AADO-107
-    public static double fourPathTWELVESample(int k, BipartiteGraph graph, boolean isInduced){
+    public static double fourPathM12Sample(int k, BipartiteGraph graph) {
         double final_result = 0;
-        for(int i=0; i<k; i++){
+        for (int i = 0; i < k; i++) {
             FourPath fourPath = graph.getRandomFourPath(graph);
 
             long count;
-            if (isInduced){
-                count = ExactCountInduced.fourPathTWELVECount(fourPath, graph);
-            }
-            else {
-                count = ExactCountNonInduced.fourPathTWELVECount(fourPath, graph);
-            }
+
+            count = ExactCountNonInduced.fourPathM12Count(fourPath, graph);
+
 
             final_result += count;
         }
-        return final_result/k*FOUR_PATH_COUNT;
+        return final_result / k * FOUR_PATH_COUNT;
     }
 
     //AAHK-108
-    public static double fourPathTHIRTEENSample(int k, BipartiteGraph graph, boolean isInduced){
+    public static double fourPathM13Sample(int k, BipartiteGraph graph) {
         double final_result = 0;
-        for(int i=0; i<k; i++){
+        for (int i = 0; i < k; i++) {
             FourPath fourPath = graph.getRandomFourPath(graph);
 
             long count;
-            if (isInduced){
-                count = ExactCountInduced.fourPathTHIRTEENCount(fourPath, graph);
-            }
-            else {
-                count = ExactCountNonInduced.fourPathTHIRTEENCount(fourPath, graph);
-            }
+
+            count = ExactCountNonInduced.fourPathM13Count(fourPath, graph);
+
 
             final_result += count;
         }
-        return final_result/k*FOUR_PATH_COUNT / 3;
+        return final_result / k * FOUR_PATH_COUNT / 3;
     }
 
     //ACFK-109
-    public static double fourPathFOURTEENSample(int k, BipartiteGraph graph, boolean isInduced){
+    public static double fourPathM14Sample(int k, BipartiteGraph graph) {
         double final_result = 0;
-        for(int i=0; i<k; i++){
+        for (int i = 0; i < k; i++) {
             FourPath fourPath = graph.getRandomFourPath(graph);
 
             long count;
-            if (isInduced){
-                count = ExactCountInduced.fourPathFOURTEENCount(fourPath, graph);
-            }
-            else {
-                count = ExactCountNonInduced.fourPathFOURTEENCount(fourPath, graph);
-            }
+
+            count = ExactCountNonInduced.fourPathM14Count(fourPath, graph);
+
 
             final_result += count;
         }
-        return final_result/k*FOUR_PATH_COUNT / 4;
+        return final_result / k * FOUR_PATH_COUNT / 4;
     }
 
     //AIKG-110
-    public static double fourPathFIFTEENSample(int k, BipartiteGraph graph, boolean isInduced){
+    public static double fourPathM15Sample(int k, BipartiteGraph graph) {
         double final_result = 0;
-        for(int i=0; i<k; i++){
+        for (int i = 0; i < k; i++) {
             FourPath fourPath = graph.getRandomFourPath(graph);
 
             long count;
-            if (isInduced){
-                count = ExactCountInduced.fourPathFIFTEENCount(fourPath, graph);
-            }
-            else {
-                count = ExactCountNonInduced.fourPathFIFTEENCount(fourPath, graph);
-            }
+
+            count = ExactCountNonInduced.fourPathM15Count(fourPath, graph);
+
 
             final_result += count;
         }
-        return final_result/k*FOUR_PATH_COUNT / 4;
+        return final_result / k * FOUR_PATH_COUNT / 4;
     }
 
     //AAPE-111
-    public static double fourPathSIXTEENSample(int k, BipartiteGraph graph, boolean isInduced){
+    public static double fourPathM16Sample(int k, BipartiteGraph graph) {
         double final_result = 0;
-        for(int i=0; i<k; i++){
+        for (int i = 0; i < k; i++) {
             FourPath fourPath = graph.getRandomFourPath(graph);
 
             long count;
-            if (isInduced){
-                count = ExactCountInduced.fourPathSIXTEENCount(fourPath, graph);
-            }
-            else {
-                count = ExactCountNonInduced.fourPathSIXTEENCount(fourPath, graph);
-            }
+
+            count = ExactCountNonInduced.fourPathM16Count(fourPath, graph);
+
 
             final_result += count;
         }
-        return final_result/k*FOUR_PATH_COUNT / 3;
+        return final_result / k * FOUR_PATH_COUNT / 3;
     }
 
     //AGJE-112
-    public static double fourPathSEVENTEENSample(int k, BipartiteGraph graph, boolean isInduced){
+    public static double fourPathM17Sample(int k, BipartiteGraph graph) {
         double final_result = 0;
-        for(int i=0; i<k; i++){
+        for (int i = 0; i < k; i++) {
             FourPath fourPath = graph.getRandomFourPath(graph);
 
             long count;
-            if (isInduced){
-                count = ExactCountInduced.fourPathSEVENTEENCount(fourPath, graph);
-            }
-            else {
-                count = ExactCountNonInduced.fourPathSEVENTEENCount(fourPath, graph);
-            }
+
+            count = ExactCountNonInduced.fourPathM17Count(fourPath, graph);
+
 
             final_result += count;
         }
-        return final_result/k*FOUR_PATH_COUNT/3;
+        return final_result / k * FOUR_PATH_COUNT / 3;
     }
 
-
-
-    // SQL
-    public static double cycleTENSampleSQL(int k, boolean isInduced){
-        double final_result = 0;
-        for(int i=0; i<k; i++){
-            Cycle cycle = BipartiteGraph.getRandomCycleFromSQL();
-
-            long count;
-            if (isInduced){
-                count = ExactCountNonInduced.cycleTENCount(cycle, null);
-            }
-            else {
-                count = ExactCountNonInduced.cycleTENCountSQL(cycle);
-            }
-
-            final_result += count;
-        }
-        return final_result/k*CYCLE_COUNT;
-    }
 }
 
