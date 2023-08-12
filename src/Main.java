@@ -4,7 +4,7 @@ public class Main {
     public static void main(String[] args) {
 
 
-        int i = 0, j;
+        int i = 0;
         String arg;
         String graph_path = "";
         long cycle_count = 0;
